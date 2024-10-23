@@ -44,7 +44,18 @@ public class RegistrationController {
 
 			logger.trace("Exited......createUser() ");
 			// Return conflict response if username already exists
-			return new ResponseEntity<>("User already exists. Try another username.", HttpStatus.CONFLICT);
+			return new ResponseEntity<>("User already exists. Try another username.",
+					HttpStatus.CONFLICT);
+		}
+
+		if (user.getRole().equals("")) {
+			user.setRole("USER");
+
+		}
+
+		if (user.getRole().equals("ADMIN")) {
+			user.setRole("ADMIN,USER");
+
 		}
 
 		// Encode user password before saving
