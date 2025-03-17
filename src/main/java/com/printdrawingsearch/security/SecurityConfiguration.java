@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.printdrawingsearch.service.MyUserDetailService;
 
@@ -56,7 +58,8 @@ public class SecurityConfiguration {
 
 				.authorizeHttpRequests(registry -> {
 
-					registry.requestMatchers("/home", "/register/**", "/api/authenticate").permitAll();
+					registry.requestMatchers("/home", "/register/**", "/api/authenticate", "http://localhost:8080")
+							.permitAll();
 
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 
@@ -117,5 +120,16 @@ public class SecurityConfiguration {
 	public PasswordEncoder passwordEncoder() {
 		// Use BCryptPasswordEncoder for password encoding
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:8080") // HTML page origin
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowCredentials(true);
+			}
+		};
 	}
 }
