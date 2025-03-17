@@ -1,3 +1,4 @@
+
 package com.printdrawingsearch;
 
 import org.slf4j.Logger;
@@ -14,8 +15,7 @@ import com.printdrawingsearch.exceptions.PrintDrawingNotFoundException;
 public class FinalProjectPrintDrawings {
 
 	// Initialize a logger for the class
-	private static final Logger logger = LoggerFactory
-			.getLogger(FinalProjectPrintDrawings.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(FinalProjectPrintDrawings.class.getName());
 
 	// private static final LogManager logManager = LogManager.getLogManager();
 
