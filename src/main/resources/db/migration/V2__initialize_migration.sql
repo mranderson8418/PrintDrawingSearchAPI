@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS printdrawingsdatabase.printdrawings (
 
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    bearingMax VARCHAR(255),
+                                                                   id INT AUTO_INCREMENT PRIMARY KEY,
+                                                                   bearingMax VARCHAR(255),
     bearingMin VARCHAR(255),
     customer VARCHAR(255),
     customerPin VARCHAR(255),
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS printdrawingsdatabase.printdrawings (
     type VARCHAR(255),
     xlsmPath VARCHAR(255),
     xlsxPath VARCHAR(255)
-);
+    );
 
 
 use printdrawingsdatabase;
