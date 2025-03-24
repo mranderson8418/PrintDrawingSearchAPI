@@ -1,0 +1,15 @@
+spring:
+  application:
+  name: PrintDrawingSearchAPI
+
+  datasource:
+    hikari:
+    Url: jdbc:mysql://localhost:3306/printdrawingsdatabase?createDatabaseIfNotExist=true
+    username: root
+    password: five2one
+    ®driver-class-name: com.mysql.cj.jdbc.Driver
+
+    spring:
+      jpa:
+        hibernate:
+          ddl-auto: update

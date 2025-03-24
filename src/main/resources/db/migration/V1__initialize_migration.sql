@@ -1,6 +1,31 @@
+create table users
+(
+    id       bigint auto_increment
+        primary key,
+    name     varchar(255) not null,
+    email    varchar(255) not null,
+    password varchar(255) not null
+);
+
+create table addresses
+(
+    id      bigint auto_increment
+        primary key,
+    street  varchar(255) not null,
+    city    varchar(255) not null,
+    zip     varchar(255) not null,
+    user_id bigint       not null,
+    constraint addresses_users_id_fk
+        foreign key (user_id) references users (id)
+);
+
+
+
+
+
 CREATE TABLE IF NOT EXISTS printdrawings (
-                                             id INT AUTO_INCREMENT PRIMARY KEY,
-                                             bearing_max VARCHAR(255),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bearing_max VARCHAR(255),
     bearing_min VARCHAR(255),
     customer VARCHAR(255),
     customer_pin VARCHAR(255),
@@ -28,3 +53,6 @@ CREATE TABLE IF NOT EXISTS printdrawings (
     xlsm_path VARCHAR(255),
     XLSX_path VARCHAR(255)
     );
+    
+    
+    
