@@ -1,5 +1,6 @@
 package com.printdrawingsearch.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,10 +16,14 @@ import jakarta.persistence.Table;
 public class MyUser {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+	@Column(name = "password")
 	private String password;
+	@Column(name = "role")
 	private String role; // Eg: ADMIN, USER
+	@Column(name = "username")
 	private String username;
 
 	/**
@@ -26,6 +31,7 @@ public class MyUser {
 	 *
 	 * @return the user ID
 	 */
+
 	public Long getId() {
 		return id;
 	}
@@ -35,6 +41,7 @@ public class MyUser {
 	 *
 	 * @param id the user ID to set
 	 */
+
 	public void setId(Long id) {
 		this.id = id;
 	}

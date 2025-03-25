@@ -35,33 +35,37 @@ public class RegistrationController {
 	 * @return a response indicating the result of the registration
 	 */
 	@PostMapping("/register/user")
-	public ResponseEntity<String> createUser(@RequestBody MyUser user) {
+	public ResponseEntity<String> createUser(@RequestBody MyUserDto userDto) {
 
 		logger.trace("Entered......createUser() ");
 
 		// Check if the username already exists
-		if (myUserRepository.findByUsername(user.getUsername()).isPresent()) {
+		if (myUserRepository.findByUsername(userDto.getUsername()).isPresent()) {
 
 			logger.trace("Exited......createUser() ");
 			// Return conflict response if username already exists
-			return new ResponseEntity<>("User already exists. Try another username.",
-					HttpStatus.CONFLICT);
+			return new ResponseEntity<>("User already exists. Try another username.", HttpStatus.CONFLICT);
+		}
+		System.out.println("userDto.getRole() = "=userDto.getRole());
+		if (userDto.getRole().isEmpty()) {
+			userDto.setRole("USER");
+
 		}
 
-		if (user.getRole().equals("")) {
-			user.setRole("USER");
+		if (userDto.getRole() == null) {
+			userDto.setRole("USER");
 
 		}
 
-		if (user.getRole().equals("ADMIN")) {
-			user.setRole("ADMIN,USER");
+		if (userDto.getRole().equals("ADMIN")) {
+			userDto.setRole("ADMIN,USER");
 
 		}
 
 		// Encode user password before saving
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		// Save user details to the repository
-		myUserRepository.save(user);
+		myUserRepository.save(userDto);
 
 		logger.trace("Exited......createUser() ");
 		// Return success response upon successful registration

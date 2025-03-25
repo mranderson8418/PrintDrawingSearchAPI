@@ -1,5 +1,6 @@
 package com.printdrawingsearch.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,36 +16,89 @@ import jakarta.persistence.Table;
 public class PrintDrawing {
 
 	// Fields representing attributes of a print drawing
+	@Column(name = "bearing_max")
 	private String bearingMax;
+
+	@Column(name = "bearing_min")
 	private String bearingMin;
+
+	@Column(name = "customer")
 	private String customer;
+
+	@Column(name = "customer_pin")
 	private String customerPin;
+
+	@Column(name = "customer_revision")
 	private String customerRevision;
+
+	@Column(name = "date")
 	private String date;
+
+	@Column(name = "date_created")
 	private String dateCreated;
+
+	@Column(name = "diameter_high")
 	private float diameterHigh;
+
+	@Column(name = "diameter_low")
 	private float diameterLow;
+
+	@Column(name = "dmg_drawing_path")
 	private String dmgDrawingPath;
+
+	@Column(name = "drawing_name")
 	private String drawingName;
+
+	@Column(name = "face_length_high")
 	private float faceLengthHigh;
+
+	@Column(name = "face_length_low")
 	private float faceLengthLow;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column(name = "new_base_price")
 	private String newBasePrice;
+
+	@Column(name = "oem")
 	private String oem;
+
+	@Column(name = "originating_customer")
 	private String originatingCustomer;
+
+	@Column(name = "part_no")
 	private String partNo;
+
+	@Column(name = "pdf_path")
 	private String pdfPath;
+
+	@Column(name = "prev_part_no")
 	private String prevPartNo;
+
+	@Column(name = "product_code")
 	private String productCode;
+
+	@Column(name = "rev_number")
 	private String revNumber;
+
+	@Column(name = "scanned_path")
 	private String scannedPath;
+
+	@Column(name = "steps")
 	private String steps;
+
+	@Column(name = "subcontractor")
 	private String subcontractor;
+
+	@Column(name = "type")
 	private String type;
+
+	@Column(name = "xlsm_path")
 	private String xlsmPath;
+
+	@Column(name = "xlsx_path")
 	private String xlsxPath;
 
 	/**
