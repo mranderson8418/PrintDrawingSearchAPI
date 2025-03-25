@@ -1,5 +1,7 @@
 package com.printdrawingsearch.controllers;
 
+import com.printdrawingsearch.dto.MyUserDto;
+import com.printdrawingsearch.service.UserPrintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class RegistrationController {
 	@Autowired
 	private PasswordEncoder passwordEncoder; // Encoder for password hashing
 
+
+
+	@Autowired
+	private UserPrintService userPrintService;
 	/**
 	 * Endpoint for user registration.
 	 *
@@ -35,37 +41,44 @@ public class RegistrationController {
 	 * @return a response indicating the result of the registration
 	 */
 	@PostMapping("/register/user")
-	public ResponseEntity<String> createUser(@RequestBody MyUserDto userDto) {
+	public ResponseEntity<String> createUser(@RequestBody MyUserDto myUserDto) {
+
 
 		logger.trace("Entered......createUser() ");
 
 		// Check if the username already exists
-		if (myUserRepository.findByUsername(userDto.getUsername()).isPresent()) {
+		if (myUserRepository.findByUsername(myUserDto.getUsername()).isPresent()) {
 
 			logger.trace("Exited......createUser() ");
 			// Return conflict response if username already exists
 			return new ResponseEntity<>("User already exists. Try another username.", HttpStatus.CONFLICT);
 		}
-		System.out.println("userDto.getRole() = "=userDto.getRole());
-		if (userDto.getRole().isEmpty()) {
-			userDto.setRole("USER");
+		System.out.println("myUserDto.getRole() = "+myUserDto.getRole());
+		if (myUserDto.getRole().isEmpty()) {
+			myUserDto.setRole("USER");
 
 		}
 
-		if (userDto.getRole() == null) {
-			userDto.setRole("USER");
+		if (myUserDto.getRole() == null) {
+			myUserDto.setRole("USER");
 
 		}
 
-		if (userDto.getRole().equals("ADMIN")) {
-			userDto.setRole("ADMIN,USER");
+		if (myUserDto.getRole().equals("ADMIN")) {
+			myUserDto.setRole("ADMIN,USER");
 
 		}
 
-		// Encode user password before saving
-		userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-		// Save user details to the repository
-		myUserRepository.save(userDto);
+
+
+
+		 userPrintService.createUser(myUserDto);
+
+
+//		// Encode user password before saving
+//		myUserDto.setPassword(passwordEncoder.encode(myUserDtoNew.getPassword()));
+//		// Save user details to the repository
+//		myUserRepository.save(myUserDto);
 
 		logger.trace("Exited......createUser() ");
 		// Return success response upon successful registration

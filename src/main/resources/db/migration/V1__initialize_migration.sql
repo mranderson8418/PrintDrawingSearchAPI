@@ -1,4 +1,4 @@
-create table users
+create table myusers
 (
     id       bigint auto_increment
         primary key,
