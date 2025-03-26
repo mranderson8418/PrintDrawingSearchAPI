@@ -45,3 +45,17 @@ PROD_DB_PORT=3306
 PROD_DB_NAME=railway
 PROD_DB_PASSWORD=gCOvuoqyGPBYhMdHAXEohUxnuRsGOsUt
 PROD_DB_USERNAME=root
+
+
+spring:
+application:
+name: PrintDrawingSearchAPI
+
+datasource:
+url: jdbc:mysql://localhost:3306/printdrawingsdatabase?createDatabaseIfNotExist=true
+username: root
+password: five2one
+driver-class-name: com.mysql.cj.jdbc.Driver
+jpa:
+hibernate:
+ddl-auto: none
