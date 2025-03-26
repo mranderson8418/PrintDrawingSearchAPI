@@ -1,9 +1,11 @@
-spring:
+ spring:
   application:
-    name: PrintDrawingSearchAPI
-
+    name: PrintDrawingSearchApi
   profiles:
     active: dev
 
-stripe:
-  apiUrl: https://api.stripe.com
+
+
+
+
+

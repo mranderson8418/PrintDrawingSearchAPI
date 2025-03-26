@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS myusers (
 );
 
 
-CREATE TABLE printdrawings (
+CREATE TABLE IF NOT EXISTS printdrawings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     bearing_max VARCHAR(255),
     bearing_min VARCHAR(255),
