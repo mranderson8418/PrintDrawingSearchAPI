@@ -53,11 +53,11 @@ public class RegistrationController {
 			// Return conflict response if username already exists
 			return new ResponseEntity<>("User already exists. Try another username.", HttpStatus.CONFLICT);
 		}
-		System.out.println("myUserDto.getRole() = "+myUserDto.getRole());
-		if (myUserDto.getRole().isEmpty()) {
-			myUserDto.setRole("USER");
-
-		}
+		System.out.println("myUserDto.getRole() ================= "+myUserDto.getRole());
+//		if (myUserDto.getRole().isEmpty()) {
+//			myUserDto.setRole("USER");
+//
+//		}
 
 		if (myUserDto.getRole() == null) {
 			myUserDto.setRole("USER");

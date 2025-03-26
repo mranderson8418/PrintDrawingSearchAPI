@@ -1,8 +1,8 @@
 
 package com.printdrawingsearch.service;
 
-import java.util.Optional;
-
+import com.printdrawingsearch.model.MyUser;
+import com.printdrawingsearch.repository.MyUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.printdrawingsearch.model.MyUser;
-import com.printdrawingsearch.repository.MyUserRepository;
+import java.util.Optional;
 
 /**
  * Service class for managing user details.
@@ -22,6 +21,11 @@ import com.printdrawingsearch.repository.MyUserRepository;
 public class MyUserDetailService implements UserDetailsService {
 	Logger logger = LoggerFactory.getLogger(MyUserDetailService.class.getName());
 	/** The my user repository. */
+
+	public MyUserDetailService(MyUserRepository myUserRepository) {
+		this.myUserRepository = myUserRepository;
+	}
+
 	@Autowired
 	private MyUserRepository myUserRepository;
 

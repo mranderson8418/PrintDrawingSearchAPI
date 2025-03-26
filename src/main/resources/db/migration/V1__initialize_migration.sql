@@ -1,15 +1,14 @@
-create table myusers
-(
-    id       bigint auto_increment
-        primary key,
-    name     varchar(255) not null,
-    email    varchar(255) not null,
-    password varchar(255) not null
+use printdrawingsdatabase;
+
+CREATE TABLE IF NOT EXISTS myusers (
+                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         password VARCHAR(255),  -- Adjust VARCHAR length as needed
+                         role VARCHAR(50),      -- Adjust VARCHAR length as needed
+                         username VARCHAR(255)  -- Adjust VARCHAR length as needed
 );
 
 
-
-CREATE TABLE IF NOT EXISTS printdrawings (
+CREATE TABLE printdrawings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     bearing_max VARCHAR(255),
     bearing_min VARCHAR(255),
@@ -37,7 +36,8 @@ CREATE TABLE IF NOT EXISTS printdrawings (
     subcontractor VARCHAR(255),
     type VARCHAR(255),
     xlsm_path VARCHAR(255),
-    xlsm_path VARCHAR(255)
+    xlsx_path VARCHAR(255)
+
     );
     
     
