@@ -37,3 +37,12 @@ with the PrintSearchAPI @RestController endpoints.
 -   UPDATE PRINT BY ID --> `http://localhost:8080/api/print/update/{id}`
 -   GET PRINT BY ID --> `http://localhost:8080/api/print/{id}`
 -   DELETE USER BY ID --> `http://localhost:8080/api/print/delete/{id}`
+
+
+###properties
+spring_profiles_active=prod
+PROD_DB_HOST=mysql.railway.internal
+PROD_DB_PORT=3306
+PROD_DB_NAME=railway
+PROD_DB_PASSWORD=gCOvuoqyGPBYhMdHAXEohUxnuRsGOsUt
+PROD_DB_USERNAME=root
