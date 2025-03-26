@@ -29,6 +29,7 @@ public class FinalProjectPrintDrawings {
 		SpringApplication.run(FinalProjectPrintDrawings.class, args);
 
 		logger.trace("Application is starting ................");
+
 	}
 
 }
