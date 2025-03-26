@@ -40,7 +40,6 @@ with the PrintSearchAPI @RestController endpoints.
 
 
 ###properties
-spring_profiles_active=prod
 PROD_DB_HOST=mysql.railway.internal
 PROD_DB_PORT=3306
 PROD_DB_NAME=railway
