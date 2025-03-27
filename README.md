@@ -43,7 +43,7 @@ with the PrintSearchAPI @RestController endpoints.
 PROD_DB_HOST=mysql.railway.internal
 PROD_DB_PORT=3306
 PROD_DB_NAME=railway
-PROD_DB_PASSWORD=gCOvuoqyGPBYhMdHAXEohUxnuRsGOsUt
+PROD_DB_PASSWORD=EIzIKIRXIilWUheuIYjQCJKXGTGgqVhK
 PROD_DB_USERNAME=root
 
 
