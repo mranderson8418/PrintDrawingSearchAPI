@@ -20,6 +20,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.printdrawingsearch.service.MyUserDetailService;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 /**
  * Configuration class for security settings.
@@ -50,13 +55,13 @@ public class SecurityConfiguration {
 
 		// we disable csrf to enable post request
 		return httpSecurity.csrf(AbstractHttpConfigurer::disable)
-
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				// lambda expression uses the httpSecurity.authorizeHttpRequests method with
 				// "registry" as an argument to defined the authorization rules yeah
 
 				.authorizeHttpRequests(registry -> {
 
-					registry.requestMatchers("/home", "/register/**", "/api/authenticate").permitAll();
+					registry.requestMatchers("/home", "/register/**", "/api/authenticate","http://127.0.0.1:5500/**").permitAll();
 
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 
@@ -71,7 +76,22 @@ public class SecurityConfiguration {
 				// Build the security filter chain
 				.build();
 	}
-
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		// Allow requests from these origins
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500", "http://localhost:3000")); //Example origins. replace with your origins
+		// Allow these HTTP methods
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		// Allow these headers
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+		// Allow sending credentials (cookies, authentication headers)
+		configuration.setAllowCredentials(true);
+		// Apply this configuration to all endpoints
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 	/**
 	 * Provides the user details service.
 	 *
