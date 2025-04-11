@@ -39,259 +39,280 @@ import com.printdrawingsearch.service.PrintDrawingService;
 @RestController
 public class PrintController {
 
-	/** The logger. */
-	// Initialize a logger for the class
-	public static final Logger logger = LoggerFactory.getLogger(PrintController.class.getName());
+    /**
+     * The logger.
+     */
+    // Initialize a logger for the class
+    public static final Logger logger = LoggerFactory.getLogger(PrintController.class.getName());
 
-	// The AuthenticationManager will help us authenticate by username and password
-	/** The authentication manager. */
-	// Autowire necessary dependencies
-	@Autowired
-	private AuthenticationManager authenticationManager;
+    // The AuthenticationManager will help us authenticate by username and password
+    /**
+     * The authentication manager.
+     */
+    // Autowire necessary dependencies
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-	/** The jwt service. */
-	@Autowired
-	private JwtService jwtService;
+    /**
+     * The jwt service.
+     */
+    @Autowired
+    private JwtService jwtService;
 
-	/** The my user detail service. */
-	@Autowired
-	private MyUserDetailService myUserDetailService;
+    /**
+     * The my user detail service.
+     */
+    @Autowired
+    private MyUserDetailService myUserDetailService;
 
-	/** The my user repository. */
-	@Autowired
-	private MyUserRepository myUserRepository;
+    /**
+     * The my user repository.
+     */
+    @Autowired
+    private MyUserRepository myUserRepository;
 
-	/** The print drawing service. */
-	@Autowired
-	private PrintDrawingService printDrawingService;
+    /**
+     * The print drawing service.
+     */
+    @Autowired
+    private PrintDrawingService printDrawingService;
 
-	/**
-	 * Constructor injection for PrintDrawingService.
-	 * 
-	 * @param printDrawingService the PrintDrawingService instance
-	 */
-	public PrintController(PrintDrawingService printDrawingService) {
-		this.printDrawingService = printDrawingService;
-	}
+    /**
+     * Constructor injection for PrintDrawingService.
+     *
+     * @param printDrawingService the PrintDrawingService instance
+     */
+    public PrintController(PrintDrawingService printDrawingService) {
+        this.printDrawingService = printDrawingService;
+    }
 
-	@GetMapping("/")
-	public String sayHello() {
-		return "Hello";
-	}
+    @GetMapping("/")
+    public String sayHello() {
+        return "Hello";
+    }
 
-	/**
-	 * Authenticates a user and returns a JWT token.
-	 *
-	 * @param loginForm the login form containing the username and password
-	 * @return the JWT token
-	 * @throws UsernameNotFoundException if the authentication fails
-	 */
-	@PostMapping("/authenticate")
-	public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
+    /**
+     * Authenticates a user and returns a JWT token.
+     *
+     * @param loginForm the login form containing the username and password
+     * @return the JWT token
+     * @throws UsernameNotFoundException if the authentication fails
+     */
+    @PostMapping("/authenticate")
+    public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
 
-		logger.trace("Entered......authenticateAndGetToken() ");
+        logger.trace("Entered......authenticateAndGetToken() ");
 
-		// the authenticationManager instance will call the "authenticate()"
-		// method and verify the username and password
-		// We will get an Authentication result object
-		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(loginForm.username(), loginForm.password()));
-		// If credentials are authenticated then generate new token
-		if (authentication.isAuthenticated()) {
+        // the authenticationManager instance will call the "authenticate()"
+        // method and verify the username and password
+        // We will get an Authentication result object
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginForm.username(), loginForm.password()));
+        // If credentials are authenticated then generate new token
+        if (authentication.isAuthenticated()) {
 
-			// The generateToken method requires the UserDetail Class
-			// Generate JWT token upon successful authentication
+            // The generateToken method requires the UserDetail Class
+            // Generate JWT token upon successful authentication
 
-			logger.trace("Exited..... authenticateAndGetToken() ");
+            logger.trace("Exited..... authenticateAndGetToken() ");
 
-			return jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
-		} else {
-			logger.trace("Exited..... authenticateAndGetToken() ");
-			logger.error("Error occurred during authentication process");
-			// Throw exception for invalid credentials
-			throw new UsernameNotFoundException("Invalid credentials");
-		}
+            return jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
+        } else {
+            logger.trace("Exited..... authenticateAndGetToken() ");
+            logger.error("Error occurred during authentication process");
+            // Throw exception for invalid credentials
+            throw new UsernameNotFoundException("Invalid credentials");
+        }
 
-	}
+    }
 
-	/**
-	 * Creates a new print drawing.
-	 *
-	 * @param printDrawingDto the print drawing details
-	 * @return the created print drawing
-	 */
-	@PostMapping("/print/create")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<PrintDrawingDto> createPrint(@RequestBody PrintDrawingDto printDrawingDto) {
+    /**
+     * Creates a new print drawing.
+     *
+     * @param printDrawingDto the print drawing details
+     * @return the created print drawing
+     */
+    @PostMapping("/print/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<PrintDrawingDto> createPrint(@RequestBody PrintDrawingDto printDrawingDto) {
 
-		logger.trace("Entered......createPrint() ");
+        logger.trace("Entered......createPrint() ");
 
-		System.out.println("/print/create"); // Log the creation request
+        System.out.println("/print/create"); // Log the creation request
 
-		return new ResponseEntity<>(printDrawingService.createPrint(printDrawingDto), HttpStatus.CREATED);
-	}
+        return new ResponseEntity<>(printDrawingService.createPrint(printDrawingDto), HttpStatus.CREATED);
+    }
 
-	/**
-	 * Deletes a print drawing by ID.
-	 *
-	 * @param id the ID of the print drawing to delete
-	 * @return a response indicating the result of the delete operation
-	 */
-	@DeleteMapping("/print/delete/{id}")
-	public ResponseEntity<String> deletePrintById(@PathVariable("id") int id) {
-		printDrawingService.deleteByPrintId(id);
-		return new ResponseEntity<>("Successfully deleted print drawing id = " + id, HttpStatus.OK);
-	}
+    /**
+     * Deletes a print drawing by ID.
+     *
+     * @param id the ID of the print drawing to delete
+     * @return a response indicating the result of the delete operation
+     */
+    @DeleteMapping("/print/delete/{id}")
+    public ResponseEntity<String> deletePrintById(@PathVariable("id") int id) {
+        printDrawingService.deleteByPrintId(id);
+        return new ResponseEntity<>("Successfully deleted print drawing id = " + id, HttpStatus.OK);
+    }
 
-	/**
-	 * Deletes a user by ID.
-	 *
-	 * @param id the ID of the user to delete
-	 * @return a response indicating the result of the delete operation
-	 * @throws NotFoundException if the user is not found
-	 */
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws NotFoundException {
-		myUserRepository.deleteById(id);
-		return new ResponseEntity<>("User found and deleted", HttpStatus.OK);
-	}
+    /**
+     * Deletes a user by ID.
+     *
+     * @param id the ID of the user to delete
+     * @return a response indicating the result of the delete operation
+     * @throws NotFoundException if the user is not found
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws NotFoundException {
+        myUserRepository.deleteById(id);
+        return new ResponseEntity<>("User found and deleted", HttpStatus.OK);
+    }
 
-	/**
-	 * Retrieves print drawings with pagination and sorting.
-	 *
-	 * @param pageNo             the page number to retrieve
-	 * @param pageSize           the size of the page to retrieve
-	 * @param field              the field to sort by
-	 * @param diameterMinValue   the minimum diameter value to filter
-	 * @param diameterMaxValue   the maximum diameter value to filter
-	 * @param faceLengthMinValue the minimum face length value to filter
-	 * @param faceLengthMaxValue the maximum face length value to filter
-	 * @return a response containing the print drawings
-	 */
-	@GetMapping("/pagination/{pageNo}/{pageSize}")
-	public PrintDrawingResponse findByDiameterWithPaginationAndSorting(@PathVariable("pageNo") int pageNo,
-			@PathVariable("pageSize") int pageSize, @RequestParam(value = "sortField", required = false) String field,
-			@RequestParam(value = "diameterMinValue", required = false) Float diameterMinValue,
-			@RequestParam(value = "diameterMaxValue", required = false) Float diameterMaxValue,
-			@RequestParam(value = "faceLengthMinValue", required = false) Float faceLengthMinValue,
-			@RequestParam(value = "faceLengthMaxValue", required = false) Float faceLengthMaxValue) {
+    /**
+     * Retrieves print drawings with pagination and sorting.
+     *
+     * @param pageNo             the page number to retrieve
+     * @param pageSize           the size of the page to retrieve
+     * @param sortfield          the field to sort by
+     * @param diameterMinValue   the minimum diameter value to filter
+     * @param diameterMaxValue   the maximum diameter value to filter
+     * @param faceLengthMinValue the minimum face length value to filter
+     * @param faceLengthMaxValue the maximum face length value to filter
+     * @return a response containing the print drawings
+     */
+    @GetMapping("/pagination/{pageNo}/{pageSize}")
+    public PrintDrawingResponse findByDiameterWithPaginationAndSorting(@PathVariable("pageNo") int pageNo,
+                                                                       @PathVariable("pageSize") int pageSize, @RequestParam(value = "sortfield", required = false) String sortfield,
+                                                                       @RequestParam(value = "drawingName", required =
+                                                                               false) String drawingName,
+                                                                       @RequestParam(value = "diameterMinValue", required = false) Float diameterMinValue,
+                                                                       @RequestParam(value = "diameterMaxValue", required = false) Float diameterMaxValue,
+                                                                       @RequestParam(value = "faceLengthMinValue", required = false) Float faceLengthMinValue,
+                                                                       @RequestParam(value = "faceLengthMaxValue", required = false) Float faceLengthMaxValue) {
 
-		// Set default values if parameters are not provided
-		if (field == null) {
-			field = "diameterLow";
-		}
-		if (diameterMinValue == null) {
-			diameterMinValue = 0.0f;
-		}
-		if (diameterMaxValue == null) {
-			diameterMaxValue = 100.0f;
-		}
-		if (faceLengthMinValue == null) {
-			faceLengthMinValue = 0.0f;
-		}
-		if (faceLengthMaxValue == null) {
-			faceLengthMaxValue = 3000.0f;
-		}
+        // Set default values if parameters are not provided
+        if (sortfield == null) {
+            sortfield = "diameterLow";
+        }
 
-		// Retrieve print drawings with pagination and sorting
-		return printDrawingService.findDiameterWithPaginationAndSorting(pageNo, pageSize, field, diameterMinValue,
-				diameterMaxValue, faceLengthMinValue, faceLengthMaxValue);
-	}
+        if (drawingName == null) {
+            drawingName = null;
+        }
+        if (diameterMinValue == null) {
+            diameterMinValue = 0.0f;
+        }
+        if (diameterMaxValue == null) {
+            diameterMaxValue = 100.0f;
+        }
+        if (faceLengthMinValue == null) {
+            faceLengthMinValue = 0.0f;
+        }
+        if (faceLengthMaxValue == null) {
+            faceLengthMaxValue = 3000.0f;
+        }
 
-	/**
-	 * Retrieves all prints with pagination.
-	 *
-	 * @param pageNo   the page number to retrieve
-	 * @param pageSize the size of the page to retrieve
-	 * @return a response containing the print drawings
-	 */
-	@GetMapping("/print")
-	public ResponseEntity<PrintDrawingResponse> getAllPrints(
-			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
-		return new ResponseEntity<>(printDrawingService.getAllPrints(pageNo, pageSize), HttpStatus.OK);
-	}
+        // Retrieve print drawings with pagination and sorting
+        return printDrawingService.findByDrawingNameAndDiameterAndFaceLengthBetween(pageNo, pageSize, sortfield,
+                                                                                    drawingName, diameterMinValue,
+                                                                                    diameterMaxValue,
+                                                                                    faceLengthMinValue,
+                                                                                    faceLengthMaxValue);
+    }
 
-	/**
-	 * Retrieves all users stored in the "myusers" table.
-	 *
-	 * @return a response containing the list of users
-	 */
-	@GetMapping("/admin/getallusers")
-	public ResponseEntity<List<MyUser>> getAllUsers() {
+    /**
+     * Retrieves all prints with pagination.
+     *
+     * @param pageNo   the page number to retrieve
+     * @param pageSize the size of the page to retrieve
+     * @return a response containing the print drawings
+     */
+    @GetMapping("/print")
+    public ResponseEntity<PrintDrawingResponse> getAllPrints(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return new ResponseEntity<>(printDrawingService.getAllPrints(pageNo, pageSize), HttpStatus.OK);
+    }
 
-		List<MyUser> users = myUserRepository.findAll();
+    /**
+     * Retrieves all users stored in the "myusers" table.
+     *
+     * @return a response containing the list of users
+     */
+    @GetMapping("/admin/getallusers")
+    public ResponseEntity<List<MyUser>> getAllUsers() {
 
-		return new ResponseEntity<>(users, HttpStatus.OK);
-	}
+        List<MyUser> users = myUserRepository.findAll();
 
-	/**
-	 * Retrieves a print drawing by ID.
-	 *
-	 * @param id the ID of the print drawing to retrieve
-	 * @return a response containing the print drawing
-	 */
-	@GetMapping("/print/{id}")
-	public ResponseEntity<PrintDrawingDto> getPrintDetail(@PathVariable("id") int id) {
-		return new ResponseEntity<>(printDrawingService.getPrintById(id), HttpStatus.OK);
-	}
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
-	/**
-	 * Retrieves all print drawings matching the search field with sorting.
-	 *
-	 * @param field the field to sort by
-	 * @return a list of print drawings
-	 */
-	@GetMapping("/printDrawings/findAll/{searchField}")
-	public List<PrintDrawingDto> getProductsWithSort(@PathVariable("searchField") String field) {
-		List<PrintDrawingDto> drawings = printDrawingService.findAllProductsWithSorting(field);
-		return drawings;
-	}
+    /**
+     * Retrieves a print drawing by ID.
+     *
+     * @param id the ID of the print drawing to retrieve
+     * @return a response containing the print drawing
+     */
+    @GetMapping("/print/{id}")
+    public ResponseEntity<PrintDrawingDto> getPrintDetail(@PathVariable("id") int id) {
+        return new ResponseEntity<>(printDrawingService.getPrintById(id), HttpStatus.OK);
+    }
 
-	/**
-	 * Admin accessible homepage.
-	 *
-	 * @return a welcome message for admin
-	 */
-	@GetMapping("/admin/home")
-	public String handleAdminHome() {
-		return "Welcome to ADMIN home!";
-	}
+    /**
+     * Retrieves all print drawings matching the search field with sorting.
+     *
+     * @param field the field to sort by
+     * @return a list of print drawings
+     */
+    @GetMapping("/printDrawings/findAll/{searchField}")
+    public List<PrintDrawingDto> getProductsWithSort(@PathVariable("searchField") String field) {
+        List<PrintDrawingDto> drawings = printDrawingService.findAllProductsWithSorting(field);
+        return drawings;
+    }
 
-	/**
-	 * User accessible homepage.
-	 *
-	 * @return a welcome message for user
-	 */
-	// Endpoint: User accessible home page
-	@GetMapping("/user/home")
-	public String handleUserHome() {
-		return "Welcome to the user home page :)";
-	}
+    /**
+     * Admin accessible homepage.
+     *
+     * @return a welcome message for admin
+     */
+    @GetMapping("/admin/home")
+    public String handleAdminHome() {
+        return "Welcome to ADMIN home!";
+    }
 
-	/**
-	 * Accessible by everyone.
-	 *
-	 * @return a welcome message for the homepage
-	 */
-	@GetMapping("/home")
-	public String handleWelcome() {
-		return "Welcome to the homepage";
-	}
+    /**
+     * User accessible homepage.
+     *
+     * @return a welcome message for user
+     */
+    // Endpoint: User accessible home page
+    @GetMapping("/user/home")
+    public String handleUserHome() {
+        return "Welcome to the user home page :)";
+    }
 
-	/**
-	 * Updates a print drawing by ID.
-	 *
-	 * @param printDrawingUpdate the print drawing details to update
-	 * @param id                 the ID of the print drawing to update
-	 * @return the updated print drawing
-	 */
-	@PutMapping("/print/update/{id}")
-	public ResponseEntity<PrintDrawingDto> updatePrintDetail(@RequestBody PrintDrawingDto printDrawingUpdate,
-			@PathVariable("id") int id) {
+    /**
+     * Accessible by everyone.
+     *
+     * @return a welcome message for the homepage
+     */
+    @GetMapping("/home")
+    public String handleWelcome() {
+        return "Welcome to the homepage";
+    }
 
-		PrintDrawingDto response = printDrawingService.updatePrint(printDrawingUpdate, id);
+    /**
+     * Updates a print drawing by ID.
+     *
+     * @param printDrawingUpdate the print drawing details to update
+     * @param id                 the ID of the print drawing to update
+     * @return the updated print drawing
+     */
+    @PutMapping("/print/update/{id}")
+    public ResponseEntity<PrintDrawingDto> updatePrintDetail(@RequestBody PrintDrawingDto printDrawingUpdate,
+                                                             @PathVariable("id") int id) {
 
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
+        PrintDrawingDto response = printDrawingService.updatePrint(printDrawingUpdate, id);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
