@@ -38,10 +38,10 @@ public class PrintDrawing {
 	private String dateCreated;
 
 	@Column(name = "diameter_high")
-	private float diameterHigh;
+	private float diameterMaxValue;
 
 	@Column(name = "diameter_low")
-	private float diameterLow;
+	private float diameterMinValue;
 
 	@Column(name = "dmg_drawing_path")
 	private String dmgDrawingPath;
@@ -50,10 +50,10 @@ public class PrintDrawing {
 	private String drawingName;
 
 	@Column(name = "face_length_high")
-	private float faceLengthHigh;
+	private float faceLengthMaxValue;
 
 	@Column(name = "face_length_low")
-	private float faceLengthLow;
+	private float faceLengthMinValue;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,10 +113,10 @@ public class PrintDrawing {
 		this.dmgDrawingPath = "";
 		this.drawingName = "";
 		this.revNumber = "";
-		this.diameterLow = 0.0f;
-		this.diameterHigh = 0.0f;
-		this.faceLengthLow = 0.0f;
-		this.faceLengthHigh = 0.0f;
+		this.diameterMinValue = 0.0f;
+		this.diameterMaxValue = 0.0f;
+		this.faceLengthMinValue = 0.0f;
+		this.faceLengthMaxValue = 0.0f;
 		this.bearingMax = "";
 		this.bearingMin = "";
 		this.steps = "";
@@ -146,12 +146,12 @@ public class PrintDrawing {
 	 * @param customerRevision    the customer revision
 	 * @param date                the date
 	 * @param dateCreated         the date created
-	 * @param diameterLow         the low diameter
-	 * @param diameterHigh        the high diameter
+	 * @param diameterMinValue    the low diameter
+	 * @param diameterMaxValue    the high diameter
 	 * @param dmgDrawingPath      the drawing path
 	 * @param drawingName         the drawing name
-	 * @param faceLengthLow       the low face length
-	 * @param faceLengthHigh      the high face length
+	 * @param faceLengthMinValue  the low face length
+	 * @param faceLengthMaxValue  the high face length
 	 * @param newBasePrice        the new base price
 	 * @param oem                 the OEM
 	 * @param originatingCustomer the originating customer
@@ -175,12 +175,12 @@ public class PrintDrawing {
 			String customerRevision,
 			String date,
 			String dateCreated,
-			float diameterLow,
-			float diameterHigh,
+			float diameterMinValue,
+			float diameterMaxValue,
 			String dmgDrawingPath,
 			String drawingName,
-			float faceLengthLow,
-			float faceLengthHigh,
+			float faceLengthMinValue,
+			float faceLengthMaxValue,
 			String newBasePrice,
 			String oem,
 			String originatingCustomer,
@@ -203,12 +203,12 @@ public class PrintDrawing {
 		this.customerRevision = customerRevision;
 		this.date = date;
 		this.dateCreated = dateCreated;
-		this.diameterLow = diameterLow;
-		this.diameterHigh = diameterHigh;
+		this.diameterMinValue = diameterMinValue;
+		this.diameterMaxValue = diameterMaxValue;
 		this.dmgDrawingPath = dmgDrawingPath;
 		this.drawingName = drawingName;
-		this.faceLengthLow = faceLengthLow;
-		this.faceLengthHigh = faceLengthHigh;
+		this.faceLengthMinValue = faceLengthMinValue;
+		this.faceLengthMaxValue = faceLengthMaxValue;
 		this.newBasePrice = newBasePrice;
 		this.oem = oem;
 		this.originatingCustomer = originatingCustomer;
@@ -225,508 +225,228 @@ public class PrintDrawing {
 		this.xlsxPath = xlsxPath;
 	}
 
-	/**
-	 * Get the maximum bearing.
-	 *
-	 * @return the maximum bearing
-	 */
 	public String getBearingMax() {
 		return bearingMax;
 	}
 
-	/**
-	 * Get the minimum bearing.
-	 *
-	 * @return the minimum bearing
-	 */
 	public String getBearingMin() {
 		return bearingMin;
 	}
 
-	/**
-	 * Get the customer name.
-	 *
-	 * @return the customer name
-	 */
 	public String getCustomer() {
 		return customer;
 	}
 
-	/**
-	 * Get the customer PIN.
-	 *
-	 * @return the customer PIN
-	 */
 	public String getCustomerPin() {
 		return customerPin;
 	}
 
-	/**
-	 * Get the customer revision.
-	 *
-	 * @return the customer revision
-	 */
 	public String getCustomerRevision() {
 		return customerRevision;
 	}
 
-	/**
-	 * Get the date.
-	 *
-	 * @return the date
-	 */
 	public String getDate() {
 		return date;
 	}
 
-	/**
-	 * Get the date created.
-	 *
-	 * @return the date created
-	 */
 	public String getDateCreated() {
 		return dateCreated;
 	}
 
-	/**
-	 * Get the high diameter.
-	 *
-	 * @return the high diameter
-	 */
-	public float getDiameterHigh() {
-		return diameterHigh;
+	public float getDiameterMaxValue() {
+		return diameterMaxValue;
 	}
 
-	/**
-	 * Get the low diameter.
-	 *
-	 * @return the low diameter
-	 */
-	public float getDiameterLow() {
-		return diameterLow;
+	public float getDiameterMinValue() {
+		return diameterMinValue;
 	}
 
-	/**
-	 * Get the drawing path.
-	 *
-	 * @return the drawing path
-	 */
 	public String getDmgDrawingPath() {
 		return dmgDrawingPath;
 	}
 
-	/**
-	 * Get the drawing name.
-	 *
-	 * @return the drawing name
-	 */
 	public String getDrawingName() {
 		return drawingName;
 	}
 
-	/**
-	 * Get the high face length.
-	 *
-	 * @return the high face length
-	 */
-	public float getFaceLengthHigh() {
-		return faceLengthHigh;
+	public float getFaceLengthMaxValue() {
+		return faceLengthMaxValue;
 	}
 
-	/**
-	 * Get the low face length.
-	 *
-	 * @return the low face length
-	 */
-	public float getFaceLengthLow() {
-		return faceLengthLow;
+	public float getFaceLengthMinValue() {
+		return faceLengthMinValue;
 	}
 
-	/**
-	 * Get the ID.
-	 *
-	 * @return the ID
-	 */
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * Gets the path of the scanned document.
-	 *
-	 * @return The path of the scanned document.
-	 */
-	public String getScannedPath() {
-		return scannedPath;
-	}
-
-	/**
-	 * Sets the path of the scanned document.
-	 *
-	 * @param scannedPath The path of the scanned document.
-	 */
-	public void setScannedPath(String scannedPath) {
-		this.scannedPath = scannedPath;
-	}
-
-	/**
-	 * Gets the steps involved in the process.
-	 *
-	 * @return The steps involved in the process.
-	 */
-	public String getSteps() {
-		return steps;
-	}
-
-	/**
-	 * Sets the steps involved in the process.
-	 *
-	 * @param steps The steps involved in the process.
-	 */
-	public void setSteps(String steps) {
-		this.steps = steps;
-	}
-
-	/**
-	 * Gets the subcontractor involved.
-	 *
-	 * @return The subcontractor involved.
-	 */
-	public String getSubcontractor() {
-		return subcontractor;
-	}
-
-	/**
-	 * Sets the subcontractor involved.
-	 *
-	 * @param subcontractor The subcontractor involved.
-	 */
-	public void setSubcontractor(String subcontractor) {
-		this.subcontractor = subcontractor;
-	}
-
-	/**
-	 * Gets the type of the document.
-	 *
-	 * @return The type of the document.
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * Sets the type of the document.
-	 *
-	 * @param type The type of the document.
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	/**
-	 * Gets the path of the XLSM file.
-	 *
-	 * @return The path of the XLSM file.
-	 */
-	public String getXlsmPath() {
-		return xlsmPath;
-	}
-
-	/**
-	 * Sets the path of the XLSM file.
-	 *
-	 * @param xlsmPath The path of the XLSM file.
-	 */
-	public void setXlsmPath(String xlsmPath) {
-		this.xlsmPath = xlsmPath;
-	}
-
-	/**
-	 * Gets the path of the XLSX file.
-	 *
-	 * @return The path of the XLSX file.
-	 */
-	public String getXlsxPath() {
-		return xlsxPath;
-	}
-
-	/**
-	 * Sets the path of the XLSX file.
-	 *
-	 * @param xlsxPath The path of the XLSX file.
-	 */
-	public void setXlsxPath(String xlsxPath) {
-		this.xlsxPath = xlsxPath;
-	}
-
-	/**
-	 * Get the new base price.
-	 *
-	 * @return the new base price
-	 */
 	public String getNewBasePrice() {
 		return newBasePrice;
 	}
 
-	/**
-	 * Get the OEM.
-	 *
-	 * @return the OEM
-	 */
 	public String getOem() {
 		return oem;
 	}
 
-	/**
-	 * Get the originating customer.
-	 *
-	 * @return the originating customer
-	 */
 	public String getOriginatingCustomer() {
 		return originatingCustomer;
 	}
 
-	/**
-	 * Get the part number.
-	 *
-	 * @return the part number
-	 */
 	public String getPartNo() {
 		return partNo;
 	}
 
-	/**
-	 * Get the PDF path.
-	 *
-	 * @return the PDF path
-	 */
 	public String getPdfPath() {
 		return pdfPath;
 	}
 
-	/**
-	 * Get the previous part number.
-	 *
-	 * @return the previous part number
-	 */
 	public String getPrevPartNo() {
 		return prevPartNo;
 	}
 
-	/**
-	 * Get the product code.
-	 *
-	 * @return the product code
-	 */
 	public String getProductCode() {
 		return productCode;
 	}
 
-	/**
-	 * Get the revision number.
-	 *
-	 * @return the revision number
-	 */
 	public String getRevNumber() {
 		return revNumber;
 	}
 
-	/**
-	 * Set the maximum bearing.
-	 *
-	 * @param bearingMax the maximum bearing to set
-	 */
+	public String getScannedPath() {
+		return scannedPath;
+	}
+
+	public String getSteps() {
+		return steps;
+	}
+
+	public String getSubcontractor() {
+		return subcontractor;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getXlsmPath() {
+		return xlsmPath;
+	}
+
+	public String getXlsxPath() {
+		return xlsxPath;
+	}
+
 	public void setBearingMax(String bearingMax) {
 		this.bearingMax = bearingMax;
 	}
 
-	/**
-	 * Set the minimum bearing.
-	 *
-	 * @param bearingMin the minimum bearing to set
-	 */
 	public void setBearingMin(String bearingMin) {
 		this.bearingMin = bearingMin;
 	}
 
-	/**
-	 * Set the customer name.
-	 *
-	 * @param customer the customer name to set
-	 */
 	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
 
-	/**
-	 * Set the customer PIN.
-	 *
-	 * @param customerPin the customer PIN to set
-	 */
 	public void setCustomerPin(String customerPin) {
 		this.customerPin = customerPin;
 	}
 
-	/**
-	 * Set the customer revision.
-	 *
-	 * @param customerRevision the customer revision to set
-	 */
 	public void setCustomerRevision(String customerRevision) {
 		this.customerRevision = customerRevision;
 	}
 
-	/**
-	 * Set the date.
-	 *
-	 * @param date the date to set
-	 */
 	public void setDate(String date) {
 		this.date = date;
 	}
 
-	/**
-	 * Set the date created.
-	 *
-	 * @param dateCreated the date created to set
-	 */
 	public void setDateCreated(String dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	/**
-	 * Set the high diameter.
-	 *
-	 * @param diameterHigh the high diameter to set
-	 */
-	public void setDiameterHigh(float diameterHigh) {
-		this.diameterHigh = diameterHigh;
+	public void setDiameterMaxValue(float diameterMaxValue) {
+		this.diameterMaxValue = diameterMaxValue;
 	}
 
-	/**
-	 * Set the low diameter.
-	 *
-	 * @param diameterLow the low diameter to set
-	 */
-	public void setDiameterLow(float diameterLow) {
-		this.diameterLow = diameterLow;
+	public void setDiameterMinValue(float diameterMinValue) {
+		this.diameterMinValue = diameterMinValue;
 	}
 
-	/**
-	 * Set the drawing path.
-	 *
-	 * @param dmgDrawingPath the drawing path to set
-	 */
 	public void setDmgDrawingPath(String dmgDrawingPath) {
 		this.dmgDrawingPath = dmgDrawingPath;
 	}
 
-	/**
-	 * Set the drawing name.
-	 *
-	 * @param drawingName the drawing name to set
-	 */
 	public void setDrawingName(String drawingName) {
 		this.drawingName = drawingName;
 	}
 
-	/**
-	 * Set the high face length.
-	 *
-	 * @param faceLengthHigh the high face length to set
-	 */
-	public void setFaceLengthHigh(float faceLengthHigh) {
-		this.faceLengthHigh = faceLengthHigh;
+	public void setFaceLengthMaxValue(float faceLengthMaxValue) {
+		this.faceLengthMaxValue = faceLengthMaxValue;
 	}
 
-	/**
-	 * Set the low face length.
-	 *
-	 * @param faceLengthLow the low face length to set
-	 */
-	public void setFaceLengthLow(float faceLengthLow) {
-		this.faceLengthLow = faceLengthLow;
+	public void setFaceLengthMinValue(float faceLengthMinValue) {
+		this.faceLengthMinValue = faceLengthMinValue;
 	}
 
-	/**
-	 * Set the ID.
-	 *
-	 * @param id the ID to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	/**
-	 * Set the new base price.
-	 *
-	 * @param newBasePrice the new base price to set
-	 */
 	public void setNewBasePrice(String newBasePrice) {
 		this.newBasePrice = newBasePrice;
 	}
 
-	/**
-	 * Set the OEM.
-	 *
-	 * @param oem the OEM to set
-	 */
 	public void setOem(String oem) {
 		this.oem = oem;
 	}
 
-	/**
-	 * Set the originating customer.
-	 *
-	 * @param originatingCustomer the originating customer to set
-	 */
 	public void setOriginatingCustomer(String originatingCustomer) {
 		this.originatingCustomer = originatingCustomer;
 	}
 
-	/**
-	 * Set the part number.
-	 *
-	 * @param partNo the part number to set
-	 */
 	public void setPartNo(String partNo) {
 		this.partNo = partNo;
 	}
 
-	/**
-	 * Set the PDF path.
-	 *
-	 * @param pdfPath the PDF path to set
-	 */
 	public void setPdfPath(String pdfPath) {
 		this.pdfPath = pdfPath;
 	}
 
-	/**
-	 * Set the previous part number.
-	 *
-	 * @param prevPartNo the previous part number to set
-	 */
 	public void setPrevPartNo(String prevPartNo) {
 		this.prevPartNo = prevPartNo;
 	}
 
-	/**
-	 * Set the product code.
-	 *
-	 * @param productCode the product code to set
-	 */
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
 
-	/**
-	 * Set the revision number.
-	 *
-	 * @param revNumber the revision number to set
-	 */
 	public void setRevNumber(String revNumber) {
 		this.revNumber = revNumber;
+	}
+
+	public void setScannedPath(String scannedPath) {
+		this.scannedPath = scannedPath;
+	}
+
+	public void setSteps(String steps) {
+		this.steps = steps;
+	}
+
+	public void setSubcontractor(String subcontractor) {
+		this.subcontractor = subcontractor;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setXlsmPath(String xlsmPath) {
+		this.xlsmPath = xlsmPath;
+	}
+
+	public void setXlsxPath(String xlsxPath) {
+		this.xlsxPath = xlsxPath;
 	}
 
 }

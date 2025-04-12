@@ -17,36 +17,27 @@ import com.printdrawingsearch.model.PrintDrawing;
 @Repository // Mark this interface as a Spring Data repository
 public interface PrintDrawingRepository extends JpaRepository<PrintDrawing, Integer> {
 
-    /**
-     * A custom method to search for the user based on the characters of the drawing name (if entered by user), diameter and facelength
-     * parameters. The response paginated to optimize visual representation of the
-     * users and prevent overloading the query response data
-     *
-     * @param diameterMinValue   the diameter min value
-     * @param drawingName        the drawingName value
-     * @param diameterMaxValue   the diameter max value
-     * @param faceLengthMinValue the face length min value
-     * @param faceLengthMaxValue the face length max value
-     * @param pageable           the page request
-     * @return list of all the users matching the search query
-     */
-    @Query("SELECT p FROM PrintDrawing p " +
-           "WHERE p.diameterLow <= :diameterMaxValue AND p.diameterHigh >= :diameterMinValue " +
-           "AND p.faceLengthLow <= :faceLengthMaxValue AND p.faceLengthHigh >= :faceLengthMinValue " +
-           "AND (:drawingName IS NULL OR p.drawingName LIKE CONCAT('%', :drawingName, '%'))")
-    Page<PrintDrawing> findByDrawingName(
-            @Param("drawingName") String drawingName,
-            @Param("diameterMinValue") float diameterMinValue,
-            @Param("diameterMaxValue") float diameterMaxValue,
-            @Param("faceLengthMinValue") float faceLengthMinValue,
-            @Param("faceLengthMaxValue") float faceLengthMaxValue,
-            Pageable pageable);
+	/**
+	 * A custom method to search for the user based on the characters of the drawing
+	 * name (if entered by user), diameter and facelength parameters. The response
+	 * paginated to optimize visual representation of the users and prevent
+	 * overloading the query response data
+	 *
+	 * @param diameterMinValue   the diameter min value
+	 * @param drawingName        the drawingName value
+	 * @param diameterMaxValue   the diameter max value
+	 * @param faceLengthMinValue the face length min value
+	 * @param faceLengthMaxValue the face length max value
+	 * @param pageable           the page request
+	 * @return list of all the users matching the search query
+	 */
+	@Query("SELECT p FROM PrintDrawing p " +
+			"WHERE p.diameterMinValue <= :diameterMaxValue AND p.diameterMaxValue >= :diameterMinValue " +
+			"AND p.faceLengthMinValue <= :faceLengthMaxValue AND p.faceLengthMaxValue >= :faceLengthMinValue " +
+			"AND (:drawingName IS NULL OR p.drawingName LIKE CONCAT('%', :drawingName, '%'))")
+	Page<PrintDrawing> findByDrawingName(@Param("drawingName") String drawingName,
+			@Param("diameterMinValue") float diameterMinValue, @Param("diameterMaxValue") float diameterMaxValue,
+			@Param("faceLengthMinValue") float faceLengthMinValue, @Param("faceLengthMaxValue") float faceLengthMaxValue,
+			Pageable pageable);
 
-
-    /**
-     * Save String value
-     *
-     * @param string the string
-     */
-    void save(String string);
 }

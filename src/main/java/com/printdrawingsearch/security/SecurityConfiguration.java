@@ -61,7 +61,7 @@ public class SecurityConfiguration {
 
 				.authorizeHttpRequests(registry -> {
 
-					registry.requestMatchers("/home", "/register/**", "/api/authenticate","http://127.0.0.1:5500/**").permitAll();
+					registry.requestMatchers("/home", "/register/**", "/api/authenticate").permitAll();
 
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 
@@ -80,7 +80,7 @@ public class SecurityConfiguration {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		// Allow requests from these origins
-		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500","http://127.0.0.1:5501", "http://localhost:3000")); //Example origins. replace with your origins
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500","http://127.0.0.1:5501", "http://localhost:3000","http://localhost:8080/api/authenticate")); //Example origins. replace with your origins
 		// Allow these HTTP methods
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		// Allow these headers

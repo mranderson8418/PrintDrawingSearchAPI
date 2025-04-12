@@ -6,7 +6,11 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.printdrawingsearch.dto.PrintDrawingDto;
@@ -17,8 +21,9 @@ import com.printdrawingsearch.repository.PrintDrawingRepository;
 import com.printdrawingsearch.service.PrintDrawingService;
 
 /**
- * Class the implements all the methods in the PrintDrawingService interface. The PrintDrawingService interface provides
- * a layer of abstraction between the controller methods and their implementation
+ * Class the implements all the methods in the PrintDrawingService interface.
+ * The PrintDrawingService interface provides a layer of abstraction between the
+ * controller methods and their implementation
  */
 
 @Service
@@ -31,7 +36,8 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
     /**
      * Overloaded constructor that creates an object of the PrintDrawingServiceImpl
      *
-     * @param printRepository Repository or database containing the attributes for the print drawings
+     * @param printRepository Repository or database containing the attributes for
+     *                        the print drawings
      */
     public PrintDrawingServiceImpl(PrintDrawingRepository printRepository) {
         this.printDrawingRepository = printRepository;
@@ -57,7 +63,8 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
     /**
      * Creates a new print drawing entry in the database.
      *
-     * @param printDrawingDto Data transfer object containing details of the print drawing to create.
+     * @param printDrawingDto Data transfer object containing details of the print
+     *                        drawing to create.
      * @return A data transfer object representing the created print drawing.
      */
     @Override
@@ -74,10 +81,12 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
         printDrawing.setCustomerRevision(printDrawingDto.getCustomerRevision());
         printDrawing.setDate(printDrawingDto.getDate());
         printDrawing.setDateCreated(printDrawingDto.getDateCreated());
-        printDrawing.setDiameterLow(printDrawingDto.getDiameter());
+        printDrawing.setDiameterMinValue(printDrawingDto.getDiameterMinValue());
+        printDrawing.setDiameterMaxValue(printDrawingDto.getDiameterMaxValue());
         printDrawing.setDmgDrawingPath(printDrawingDto.getDmgDrawingPath());
         printDrawing.setDrawingName(printDrawingDto.getDrawingName());
-        printDrawing.setFaceLengthLow(printDrawingDto.getFaceLength());
+        printDrawing.setFaceLengthMinValue(printDrawingDto.getFaceLengthMinValue());
+        printDrawing.setFaceLengthMaxValue(printDrawingDto.getFaceLengthMaxValue());
         printDrawing.setOem(printDrawingDto.getOem());
         printDrawing.setOriginatingCustomer(printDrawingDto.getOriginatingCustomer());
         printDrawing.setPartNo(printDrawingDto.getPartNo());
@@ -101,37 +110,67 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      * Updates an existing print drawing with new details.
      *
      * @param printDrawing       The existing print drawing to update.
-     * @param printDrawingUpdate Data transfer object containing updated details of the print drawing.
+     * @param printDrawingUpdate Data transfer object containing updated details of
+     *                           the print drawing.
      * @return The updated print drawing.
      */
     public PrintDrawing createPrintUpdate(PrintDrawing printDrawing, PrintDrawingDto printDrawingUpdate) {
 
         logger.trace("Entered......createPrintUpdate() ");
 
+        /** 1 */
         printDrawing.setBearingMax(printDrawingUpdate.getBearingMax());
+        /** 2 */
         printDrawing.setBearingMin(printDrawingUpdate.getBearingMin());
+        /** 3 */
         printDrawing.setCustomer(printDrawingUpdate.getCustomer());
+        /** 4 */
         printDrawing.setCustomerPin(printDrawingUpdate.getCustomerPin());
+        /** 5 */
         printDrawing.setCustomerRevision(printDrawingUpdate.getCustomerRevision());
+        /** 6 */
         printDrawing.setDate(printDrawingUpdate.getDate());
+        /** 7 */
         printDrawing.setDateCreated(printDrawingUpdate.getDateCreated());
-        printDrawing.setDiameterLow(printDrawingUpdate.getDiameter());
+        /** 8 */
+        printDrawing.setDiameterMinValue(printDrawingUpdate.getDiameterMinValue());
+        /** 9 */
+        printDrawing.setDiameterMaxValue(printDrawingUpdate.getDiameterMaxValue());
+        /** 10 */
         printDrawing.setDmgDrawingPath(printDrawingUpdate.getDmgDrawingPath());
+        /** 11 */
         printDrawing.setDrawingName(printDrawingUpdate.getDrawingName());
-        printDrawing.setFaceLengthLow(printDrawingUpdate.getFaceLength());
+        /** 12 */
+        printDrawing.setFaceLengthMinValue(printDrawingUpdate.getFaceLengthMinValue());
+        /** 13 */
+        printDrawing.setFaceLengthMaxValue(printDrawingUpdate.getFaceLengthMaxValue());
+        /** 14 */
         printDrawing.setOem(printDrawingUpdate.getOem());
+        /** 15 */
         printDrawing.setOriginatingCustomer(printDrawingUpdate.getOriginatingCustomer());
+        /** 16 */
         printDrawing.setPartNo(printDrawingUpdate.getPartNo());
+        /** 17 */
         printDrawing.setPdfPath(printDrawingUpdate.getPdfPath());
+        /** 18 */
         printDrawing.setPrevPartNo(printDrawingUpdate.getPrevPartNo());
+        /** 19 */
         printDrawing.setProductCode(printDrawingUpdate.getProductCode());
+        /** 20 */
         printDrawing.setRevNumber(printDrawingUpdate.getRevNumber());
+        /** 21 */
         printDrawing.setScannedPath(printDrawingUpdate.getScannedPath());
+        /** 22 */
         printDrawing.setSteps(printDrawingUpdate.getSteps());
+        /** 23 */
         printDrawing.setSubcontractor(printDrawingUpdate.getSubcontractor());
+        /** 24 */
         printDrawing.setType(printDrawingUpdate.getType());
+        /** 25 */
         printDrawing.setXlsmPath(printDrawingUpdate.getXlsmPath());
+        /** 26 */
         printDrawing.setXlsxPath(printDrawingUpdate.getXlsxPath());
+
         logger.trace("Exited......createPrintUpdate() ");
         return printDrawing;
     }
@@ -140,15 +179,15 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      * Deletes a print drawing entry by its ID.
      *
      * @param id The ID of the print drawing to delete.
-     * @throws PrintDrawingNotFoundException if the print drawing with the given ID is not found.
+     * @throws PrintDrawingNotFoundException if the print drawing with the given ID
+     *                                       is not found.
      */
     @Override
     public void deleteByPrintId(int id) {
         logger.trace("Entered......deleteByPrintId() ");
 
         PrintDrawing printDrawing = printDrawingRepository.findById(id)
-                                                          .orElseThrow(() -> new PrintDrawingNotFoundException(
-                                                                  "Print drawing could not be deleted"));
+                .orElseThrow(() -> new PrintDrawingNotFoundException("Print drawing could not be deleted"));
 
         printDrawingRepository.delete(printDrawing);
         logger.trace("Exited......deleteByPrintId() ");
@@ -161,22 +200,29 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      */
     public List<PrintDrawingDto> findAllProducts() {
         List<PrintDrawing> printDrawingList = printDrawingRepository.findAll();
-        return printDrawingList.stream().map(this::mapToDto).collect(Collectors.toList());
+        return printDrawingList.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
     /**
      * Retrieves all print drawing entries with sorting.
      *
      * @param field The field to sort by.
-     * @return A list of sorted data transfer objects representing all print drawings.
+     * @return A list of sorted data transfer objects representing all print
+     * drawings.
      */
     public List<PrintDrawingDto> findAllProductsWithSorting(String field) {
-        List<PrintDrawing> printDrawingList = printDrawingRepository.findAll(Sort.by(Sort.Direction.ASC, field));
-        return printDrawingList.stream().map(this::mapToDto).collect(Collectors.toList());
+        List<PrintDrawing> printDrawingList = printDrawingRepository.findAll(Sort.by(Sort.Direction.ASC,
+                field));
+        return printDrawingList.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
     /**
-     * Finds print drawings within specified diameter and face length range with pagination and sorting.
+     * Finds print drawings within specified diameter and face length range with
+     * pagination and sorting.
      *
      * @param pageNo             The page number to retrieve.
      * @param pageSize           The number of items per page.
@@ -185,22 +231,26 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      * @param diameterMaxValue   The maximum value for diameter.
      * @param faceLengthMinValue The minimum value for face length.
      * @param faceLengthMaxValue The maximum value for face length.
-     * @return A PrintDrawingResponse object containing the requested print drawings.
+     * @return A PrintDrawingResponse object containing the requested print
+     * drawings.
      */
-    public PrintDrawingResponse findByDrawingNameAndDiameterAndFaceLengthBetween(int pageNo, int pageSize, String sortField, String drawingName,
-                                                                                 float diameterMinValue, float diameterMaxValue, float faceLengthMinValue, float faceLengthMaxValue) {
+    public PrintDrawingResponse findByDrawingNameAndDiameterAndFaceLengthBetween(int pageNo, int pageSize, String sortField,
+                                                                                 String drawingName, float diameterMinValue, float diameterMaxValue, float faceLengthMinValue,
+                                                                                 float faceLengthMaxValue) {
         logger.trace("Entered......findDiameterWithPaginationAndSorting() ");
 
         // Create PageRequest for Pagination and Sorting
-        Pageable pageable = PageRequest.of(pageNo, pageSize).withSort(Sort.by(sortField));
+        Pageable pageable = PageRequest.of(pageNo,
+                        pageSize)
+                .withSort(Sort.by(sortField));
 
         // Fetch Drawings within Diameter Range and Apply Pagination
-        Page<PrintDrawing> drawings =
-                printDrawingRepository.findByDrawingName(drawingName,
-                                                         diameterMinValue,
-                                                         diameterMaxValue,
-                                                         faceLengthMinValue,
-                                                         faceLengthMaxValue, pageable);
+        Page<PrintDrawing> drawings = printDrawingRepository.findByDrawingName(drawingName,
+                diameterMinValue,
+                diameterMaxValue,
+                faceLengthMinValue,
+                faceLengthMaxValue,
+                pageable);
 
         // Extract Content from Page Object and Convert to DTOs
         List<PrintDrawing> printDrawingList = drawings.getContent();
@@ -248,39 +298,47 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
     public Page<PrintDrawingDto> findProductsWithPaginationAndSorting(int offset, int pageSize, String field) {
         logger.trace("Entered......findProductsWithPaginationAndSorting() ");
 
-        Page<PrintDrawing> drawings = printDrawingRepository
-                .findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(field)));
+        Page<PrintDrawing> drawings = printDrawingRepository.findAll(PageRequest.of(offset,
+                        pageSize)
+                .withSort(Sort.by(field)));
 
         // Convert Page<PrintDrawing> to List<PrintDrawingDto>
-        List<PrintDrawingDto> dtos = drawings.stream().map(this::convertToDto).collect(Collectors.toList());
+        List<PrintDrawingDto> dtos = drawings.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
 
         // Create a new Page<PrintDrawingDto> with the converted DTOs and
         // original
         // pagination info
         logger.trace("Exited......findProductsWithPaginationAndSorting() ");
-        return new PageImpl<>(dtos, drawings.getPageable(), drawings.getTotalElements());
+        return new PageImpl<>(dtos,
+                drawings.getPageable(),
+                drawings.getTotalElements());
     }
-
 
     /**
      * Retrieves all print drawings with pagination.
      *
      * @param pageNo   The page number to retrieve.
      * @param pageSize The number of items per page.
-     * @return A PrintDrawingResponse containing all print drawings for the specified page.
+     * @return A PrintDrawingResponse containing all print drawings for the
+     * specified page.
      */
     @Override
     public PrintDrawingResponse getAllPrints(int pageNo, int pageSize) {
         logger.trace("Entered......getAllPrints() ");
 
-        PageRequest pageable = PageRequest.of(pageNo, pageSize);
+        PageRequest pageable = PageRequest.of(pageNo,
+                pageSize);
 
         Page<PrintDrawing> printDrawing = printDrawingRepository.findAll(pageable);
 
         // this "printDrawing.getContent()" will get everything in the page
         List<PrintDrawing> printDrawingList = printDrawing.getContent();
 
-        List<PrintDrawingDto> content = printDrawingList.stream().map(this::mapToDto).collect(Collectors.toList());
+        List<PrintDrawingDto> content = printDrawingList.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
 
         PrintDrawingResponse printDrawingResponse = new PrintDrawingResponse();
 
@@ -299,15 +357,15 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      *
      * @param id The ID of the print drawing to retrieve.
      * @return A data transfer object representing the retrieved print drawing.
-     * @throws PrintDrawingNotFoundException if the print drawing with the given ID is not found.
+     * @throws PrintDrawingNotFoundException if the print drawing with the given ID
+     *                                       is not found.
      */
     @Override
     public PrintDrawingDto getPrintById(int id) {
         logger.trace("Entered......getPrintById() ");
 
         PrintDrawing printDrawing = printDrawingRepository.findById(id)
-                                                          .orElseThrow(() -> new PrintDrawingNotFoundException(
-                                                                  "Print drawing could not be found :("));
+                .orElseThrow(() -> new PrintDrawingNotFoundException("Print drawing could not be found :("));
         logger.trace("Exited......getPrintById() ");
         return mapToDto(printDrawing);
     }
@@ -320,31 +378,59 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      */
     private PrintDrawingDto mapToDto(PrintDrawing printDrawing) {
         PrintDrawingDto printDrawingDto = new PrintDrawingDto();
+        /** 1 */
         printDrawingDto.setId(printDrawing.getId());
+        /** 2 */
         printDrawingDto.setBearingMax(printDrawing.getBearingMax());
+        /** 3 */
         printDrawingDto.setBearingMin(printDrawing.getBearingMin());
+        /** 4 */
         printDrawingDto.setCustomer(printDrawing.getCustomer());
+        /** 5 */
         printDrawingDto.setCustomerPin(printDrawing.getCustomerPin());
+        /** 6 */
         printDrawingDto.setCustomerRevision(printDrawing.getCustomerRevision());
+        /** 7 */
         printDrawingDto.setDate(printDrawing.getDate());
+        /** 8 */
         printDrawingDto.setDateCreated(printDrawing.getDateCreated());
-        printDrawingDto.setDiameter(printDrawing.getDiameterLow());
-
+        /** 9 */
+        printDrawingDto.setDiameterMinValue(printDrawing.getDiameterMinValue());
+        /** 10 */
+        printDrawingDto.setDiameterMaxValue(printDrawing.getDiameterMaxValue());
+        /** 11 */
         printDrawingDto.setDmgDrawingPath(printDrawing.getDmgDrawingPath());
+        /** 12 */
         printDrawingDto.setDrawingName(printDrawing.getDrawingName());
-        printDrawingDto.setFaceLength(printDrawing.getFaceLengthLow());
+        /** 13 */
+        printDrawingDto.setFaceLengthMinValue(printDrawing.getFaceLengthMinValue());
+        /** 14 */
+        printDrawingDto.setFaceLengthMaxValue(printDrawing.getFaceLengthMaxValue());
+        /** 15 */
         printDrawingDto.setOem(printDrawing.getOem());
+        /** 16 */
         printDrawingDto.setOriginatingCustomer(printDrawing.getOriginatingCustomer());
+        /** 17 */
         printDrawingDto.setPartNo(printDrawing.getPartNo());
+        /** 18 */
         printDrawingDto.setPdfPath(printDrawing.getPdfPath());
+        /** 19 */
         printDrawingDto.setPrevPartNo(printDrawing.getPrevPartNo());
+        /** 20 */
         printDrawingDto.setProductCode(printDrawing.getProductCode());
+        /** 21 */
         printDrawingDto.setRevNumber(printDrawing.getRevNumber());
+        /** 22 */
         printDrawingDto.setScannedPath(printDrawing.getScannedPath());
+        /** 23 */
         printDrawingDto.setSteps(printDrawing.getSteps());
+        /** 24 */
         printDrawingDto.setType(printDrawing.getType());
+        /** 25 */
         printDrawingDto.setSubcontractor(printDrawing.getSubcontractor());
+        /** 26 */
         printDrawingDto.setXlsmPath(printDrawing.getXlsmPath());
+        /** 27 */
         printDrawingDto.setXlsxPath(printDrawing.getXlsxPath());
         return printDrawingDto;
     }
@@ -355,22 +441,24 @@ public class PrintDrawingServiceImpl implements PrintDrawingService {
      * @param printDrawingUpdate The data to update the PrintDrawing entity with.
      * @param id                 The ID of the PrintDrawing entity to update.
      * @return The updated PrintDrawing DTO.
-     * @throws PrintDrawingNotFoundException If the PrintDrawing entity to update is not found.
+     * @throws PrintDrawingNotFoundException If the PrintDrawing entity to update is
+     *                                       not found.
      */
     @Override
     public PrintDrawingDto updatePrint(PrintDrawingDto printDrawingUpdate, int id)
 
-            throws PrintDrawingNotFoundException {
+            throws
+            PrintDrawingNotFoundException {
         logger.trace("Entered......updatePrint() ");
 
         try {
             // Find the PrintDrawing entity by ID or throw an exception if not found
             PrintDrawing printDrawing = printDrawingRepository.findById(id)
-                                                              .orElseThrow(() -> new PrintDrawingNotFoundException(
-                                                                      "Print drawing could not be updated"));
+                    .orElseThrow(() -> new PrintDrawingNotFoundException("Print drawing could not be updated"));
 
             // Create an updated PrintDrawing entity
-            PrintDrawing updatedPrintDrawing = createPrintUpdate(printDrawing, printDrawingUpdate);
+            PrintDrawing updatedPrintDrawing = createPrintUpdate(printDrawing,
+                    printDrawingUpdate);
 
             // Save the updated PrintDrawing entity
             PrintDrawing newPrintDrawing = printDrawingRepository.save(updatedPrintDrawing);

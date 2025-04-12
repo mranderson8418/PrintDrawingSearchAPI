@@ -100,7 +100,7 @@ public class PrintController {
      */
     @PostMapping("/authenticate")
     public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
-
+        System.out.println("Entered......authenticateAndGetToken() ");
         logger.trace("Entered......authenticateAndGetToken() ");
 
         // the authenticationManager instance will call the "authenticate()"
@@ -111,13 +111,15 @@ public class PrintController {
         // If credentials are authenticated then generate new token
         if (authentication.isAuthenticated()) {
 
+
             // The generateToken method requires the UserDetail Class
             // Generate JWT token upon successful authentication
-
+            System.out.println("Is Authenticated ---> Exited......authenticateAndGetToken() ");
             logger.trace("Exited..... authenticateAndGetToken() ");
 
             return jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
         } else {
+            System.out.println("Not Authenticated ---> Exited......authenticateAndGetToken() ");
             logger.trace("Exited..... authenticateAndGetToken() ");
             logger.error("Error occurred during authentication process");
             // Throw exception for invalid credentials
@@ -182,7 +184,7 @@ public class PrintController {
      */
     @GetMapping("/pagination/{pageNo}/{pageSize}")
     public PrintDrawingResponse findByDiameterWithPaginationAndSorting(@PathVariable("pageNo") int pageNo,
-                                                                       @PathVariable("pageSize") int pageSize, @RequestParam(value = "sortfield", required = false) String sortfield,
+                                                                       @PathVariable("pageSize") int pageSize, @RequestParam(value = "sortfield", required = false) String sortField,
                                                                        @RequestParam(value = "drawingName", required =
                                                                                false) String drawingName,
                                                                        @RequestParam(value = "diameterMinValue", required = false) Float diameterMinValue,
@@ -191,12 +193,12 @@ public class PrintController {
                                                                        @RequestParam(value = "faceLengthMaxValue", required = false) Float faceLengthMaxValue) {
 
         // Set default values if parameters are not provided
-        if (sortfield == null) {
-            sortfield = "diameterLow";
+        if (sortField == null) {
+            sortField = "diameterMinValue";
         }
 
         if (drawingName == null) {
-            drawingName = null;
+            drawingName = "";
         }
         if (diameterMinValue == null) {
             diameterMinValue = 0.0f;
@@ -212,7 +214,7 @@ public class PrintController {
         }
 
         // Retrieve print drawings with pagination and sorting
-        return printDrawingService.findByDrawingNameAndDiameterAndFaceLengthBetween(pageNo, pageSize, sortfield,
+        return printDrawingService.findByDrawingNameAndDiameterAndFaceLengthBetween(pageNo, pageSize, sortField,
                                                                                     drawingName, diameterMinValue,
                                                                                     diameterMaxValue,
                                                                                     faceLengthMinValue,

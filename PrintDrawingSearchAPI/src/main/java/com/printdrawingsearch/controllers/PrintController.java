@@ -173,7 +173,7 @@ public class PrintController {
 
 		// Set default values if parameters are not provided
 		if (field == null) {
-			field = "diameterLow";
+			field = "diameterMinValue";
 		}
 		if (diameterMinValue == null) {
 			diameterMinValue = 0.0f;
