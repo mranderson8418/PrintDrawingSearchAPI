@@ -99,25 +99,32 @@ public class PrintController {
      * @throws UsernameNotFoundException if the authentication fails
      */
     @PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
+    public ResponseEntity<String> authenticateAndGetToken(@RequestBody LoginForm loginForm) {
         System.out.println("Entered......authenticateAndGetToken() ");
         logger.trace("Entered......authenticateAndGetToken() ");
 
         // the authenticationManager instance will call the "authenticate()"
         // method and verify the username and password
         // We will get an Authentication result object
+
+        System.out.println("loginForm.username() = " + loginForm.username());
+        System.out.println("loginForm.password() = " + loginForm.password());
+
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginForm.username(), loginForm.password()));
         // If credentials are authenticated then generate new token
         if (authentication.isAuthenticated()) {
+
+            System.out.println("New Bearer Token is being generated");
 
 
             // The generateToken method requires the UserDetail Class
             // Generate JWT token upon successful authentication
             System.out.println("Is Authenticated ---> Exited......authenticateAndGetToken() ");
             logger.trace("Exited..... authenticateAndGetToken() ");
-
-            return jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
+            String tokenBearer = jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
+            System.out.println("tokenBearer = " + tokenBearer);
+            return new ResponseEntity<>(tokenBearer, HttpStatus.OK);
         } else {
             System.out.println("Not Authenticated ---> Exited......authenticateAndGetToken() ");
             logger.trace("Exited..... authenticateAndGetToken() ");
@@ -215,10 +222,10 @@ public class PrintController {
 
         // Retrieve print drawings with pagination and sorting
         return printDrawingService.findByDrawingNameAndDiameterAndFaceLengthBetween(pageNo, pageSize, sortField,
-                                                                                    drawingName, diameterMinValue,
-                                                                                    diameterMaxValue,
-                                                                                    faceLengthMinValue,
-                                                                                    faceLengthMaxValue);
+                drawingName, diameterMinValue,
+                diameterMaxValue,
+                faceLengthMinValue,
+                faceLengthMaxValue);
     }
 
     /**

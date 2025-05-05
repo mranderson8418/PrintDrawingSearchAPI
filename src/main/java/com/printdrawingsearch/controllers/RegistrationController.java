@@ -45,24 +45,33 @@ public class RegistrationController {
 
 
 		logger.trace("Entered......createUser() ");
+		System.out.println("Entered......createUser() ");
+
+
 
 		// Check if the username already exists
 		if (myUserRepository.findByUsername(myUserDto.getUsername()).isPresent()) {
 
 			logger.trace("Exited......createUser() ");
+			System.out.println("Exited......createUser() ");
+
+
 			// Return conflict response if username already exists
 			return new ResponseEntity<>("User already exists. Try another username.", HttpStatus.CONFLICT);
 		}
 		System.out.println("myUserDto.getRole() ================= "+myUserDto.getRole());
-//		if (myUserDto.getRole().isEmpty()) {
-//			myUserDto.setRole("USER");
-//
-//		}
+		if (myUserDto.getRole().isEmpty()) {
+			myUserDto.setRole("USER");
+
+		}
 
 		if (myUserDto.getRole() == null) {
 			myUserDto.setRole("USER");
 
 		}
+
+		System.out.println("myUserDto.getRole() = "+myUserDto.getRole());
+
 
 		if (myUserDto.getRole().equals("ADMIN")) {
 			myUserDto.setRole("ADMIN,USER");

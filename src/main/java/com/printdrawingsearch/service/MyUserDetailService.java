@@ -39,11 +39,13 @@ public class MyUserDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.trace("Entered......loadUserByUsername() ");
+		System.out.println("Entered......loadUserByUsername() ");
 
 		Optional<MyUser> user = myUserRepository.findByUsername(username);
 		// If the username is found then an object of the "UserDetails" Interface is
 		// created using the username and password
 		if (user.isPresent()) {
+			System.out.println("User is present..............");
 			var userObj = user.get();
 			// uses the "User" class "builder()" method to create a "UserBuiler"
 			// the "UserBuilder" has the "username()" and "password()" and "roles()" methods
@@ -55,6 +57,8 @@ public class MyUserDetailService implements UserDetailsService {
 					.roles(getRoles(userObj)).build();
 
 		} else {
+
+			System.out.println("User is not found..............");
 			logger.trace("Exited......loadUserByUsername() ");
 			throw new UsernameNotFoundException(username);
 		}
