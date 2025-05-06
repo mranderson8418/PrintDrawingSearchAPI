@@ -120,12 +120,7 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
 
-                <configuration>
-                    <url>jdbc:mysql://localhost:3306/printdrawingsdatabase?createDatabaseIfNotExist=true</url>
-                    <user>root</user>
-                    <password>five2one</password>
-                    <cleanDisabled>false</cleanDisabled>
-                </configuration>
+
 
             </plugin>
 
