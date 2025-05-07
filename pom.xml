@@ -90,15 +90,18 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+            <version>11.8.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
-
+            <version>11.8.0</version>
         </dependency>
 
         <dependency>
@@ -127,8 +130,17 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>11.8.0</version> <configuration>
+                <url>${spring.datasource.url}</url>
+                <user>${spring.datasource.username}</user>
+                <password>${spring.datasource.password}</password>
+                <locations>classpath:db/migration</locations> </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
+
 
