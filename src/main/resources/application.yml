@@ -16,3 +16,8 @@ spring:
     password: ${PROD_DB_PASSWORD}
     locations: classpath:db/migration
     enabled: true
+  management:
+    endpoint:
+      health:
+        show:
+          details: always

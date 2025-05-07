@@ -2,6 +2,7 @@ package com.printdrawingsearch.controllers;
 
 import java.util.List;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,6 +255,20 @@ public class PrintController {
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+//    @GetMapping("/actuator/health")
+//    public ResponseEntity<MemoryHealthIndicator> getHealthCheck() {
+//
+//        System.out.println("GetMapping ---> /actuator/health");
+//
+//
+//        MemoryHealthIndicator healthCheck = new MemoryHealthIndicator();
+//
+//
+//        String healthCheckResponse = String.valueOf(healthCheck.health());
+//
+//
+//        return new ResponseEntity<>(healthCheck, HttpStatus.OK);
+//    }
 
     /**
      * Retrieves a print drawing by ID.
