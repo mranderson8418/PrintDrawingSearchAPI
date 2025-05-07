@@ -7,7 +7,7 @@ spring:
     password: ${PROD_DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: none # Or none
+      ddl-auto: update # Or none
     properties:
       dialect: org.hibernate.dialect.MySQLDialect
   flyway:
