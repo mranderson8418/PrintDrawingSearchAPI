@@ -11,11 +11,8 @@ spring:
     properties:
       dialect: org.hibernate.dialect.MySQLDialect
   flyway:
-    url: jdbc:mysql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
-    user: ${PROD_DB_USERNAME}
-    password: ${PROD_DB_PASSWORD}
-    locations: classpath:db/migration
     enabled: true
+    locations: classpath:db/migration
   management:
     endpoint:
       health:
