@@ -1,5 +1,7 @@
 package com.printdrawingsearch.security;
 
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +13,17 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.printdrawingsearch.service.MyUserDetailService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import com.printdrawingsearch.service.MyUserDetailService;
 
 /**
  * Configuration class for security settings.
@@ -61,7 +60,8 @@ public class SecurityConfiguration {
 
 				.authorizeHttpRequests(registry -> {
 
-					registry.requestMatchers("/home", "/register/**", "/api/authenticate").permitAll();
+					registry.requestMatchers("/home", "/register/**", "/api/authenticate",
+							"/logout/**", "/login/**").permitAll();
 
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 
@@ -70,22 +70,27 @@ public class SecurityConfiguration {
 					registry.anyRequest().authenticated();
 				})
 				// Allow all users to access the login page
-				.formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+				// .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
 				// Add JWT authentication filter before UsernamePasswordAuthenticationFilter
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(jwtAuthenticationFilter,
+						UsernamePasswordAuthenticationFilter.class)
 				// Build the security filter chain
 				.build();
+
 	}
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		// Allow requests from these origins
-		//Example origins. replace with your origins
-	configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500","http://127.0.0.1:5501", "http://localhost:3000"));
+		// Example origins. replace with your origins
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500",
+				"http://127.0.0.1:5501", "http://localhost:3000"));
 		// Allow these HTTP methods
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		// Allow these headers
-		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+		configuration.setAllowedHeaders(
+				Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
 		// Allow sending credentials (cookies, authentication headers)
 		configuration.setAllowCredentials(true);
 		// Apply this configuration to all endpoints
@@ -93,6 +98,7 @@ public class SecurityConfiguration {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
+
 	/**
 	 * Provides the user details service.
 	 *
