@@ -52,28 +52,18 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-		// we disable csrf to enable post request
 		return httpSecurity.csrf(AbstractHttpConfigurer::disable)
-				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-				// lambda expression uses the httpSecurity.authorizeHttpRequests method with
-				// "registry" as an argument to defined the authorization rules yeah
-
-				.authorizeHttpRequests(registry -> {
-
-					registry.requestMatchers("/home", "/register/**", "/api/authenticate",
-							"/logout/**", "/login/**").permitAll();
-
+				.cors(cors -> cors.configurationSource(corsConfigurationSource())).authorizeHttpRequests(registry -> {
+					registry.requestMatchers("/api/**", "/", "/home", "/register/**", "/api/authenticate", "/logout/**",
+							"/login/**", "/css/**", "/js/**", "/images/**").permitAll(); // Added paths for static resources
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
-
 					registry.requestMatchers("/user/**").hasRole("USER");
-
 					registry.anyRequest().authenticated();
 				})
-				// Allow all users to access the login page
+				// Allow all users to access the login page (if you have one configured)
 				// .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
 				// Add JWT authentication filter before UsernamePasswordAuthenticationFilter
-				.addFilterBefore(jwtAuthenticationFilter,
-						UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				// Build the security filter chain
 				.build();
 
@@ -84,13 +74,11 @@ public class SecurityConfiguration {
 		CorsConfiguration configuration = new CorsConfiguration();
 		// Allow requests from these origins
 		// Example origins. replace with your origins
-		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500",
-				"http://127.0.0.1:5501", "http://localhost:3000"));
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://localhost:3000"));
 		// Allow these HTTP methods
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		// Allow these headers
-		configuration.setAllowedHeaders(
-				Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
 		// Allow sending credentials (cookies, authentication headers)
 		configuration.setAllowCredentials(true);
 		// Apply this configuration to all endpoints

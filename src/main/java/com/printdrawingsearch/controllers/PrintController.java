@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.printdrawingsearch.dto.PrintDrawingDto;
 import com.printdrawingsearch.dto.PrintDrawingResponse;
+import com.printdrawingsearch.healthcheck.MemoryHealthIndicator;
 import com.printdrawingsearch.model.MyUser;
 import com.printdrawingsearch.repository.MyUserRepository;
 import com.printdrawingsearch.security.JwtService;
@@ -86,6 +88,26 @@ public class PrintController {
 		this.printDrawingService = printDrawingService;
 	}
 
+	@GetMapping("/")
+	public String home() {
+		return "index"; // Renders templates/index.html
+	}
+	//
+	// @GetMapping("/register")
+	// public String register() {
+	// return "register"; // Renders templates/register.html
+	// }
+	//
+	// @GetMapping("/admin-home")
+	// public String adminHome() {
+	// return "admin-home";
+	// }
+	//
+	// @GetMapping("/get-all-prints")
+	// public String getAllPrints() {
+	// return "get-all-prints";
+	// }
+
 	/**
 	 * Authenticates a user and returns a JWT token.
 	 *
@@ -94,6 +116,7 @@ public class PrintController {
 	 * @throws UsernameNotFoundException if the authentication fails
 	 */
 	@PostMapping("/authenticate")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<String> authenticateAndGetToken(@RequestBody LoginForm loginForm) {
 		System.out.println("Entered......authenticateAndGetToken() ");
 		logger.trace("Entered......authenticateAndGetToken() ");
@@ -106,8 +129,7 @@ public class PrintController {
 		System.out.println("loginForm.password() = " + loginForm.password());
 
 		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(loginForm.username(),
-						loginForm.password()));
+				.authenticate(new UsernamePasswordAuthenticationToken(loginForm.username(), loginForm.password()));
 		// If credentials are authenticated then generate new token
 		if (authentication.isAuthenticated()) {
 
@@ -117,8 +139,7 @@ public class PrintController {
 			// Generate JWT token upon successful authentication
 			System.out.println("Is Authenticated ---> Exited......authenticateAndGetToken() ");
 			logger.trace("Exited..... authenticateAndGetToken() ");
-			String tokenBearer = jwtService
-					.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
+			String tokenBearer = jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
 			System.out.println("tokenBearer = " + tokenBearer);
 			return new ResponseEntity<>(tokenBearer, HttpStatus.OK);
 		} else {
@@ -139,15 +160,14 @@ public class PrintController {
 	 */
 	@PostMapping("/print/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<PrintDrawingDto> createPrint(
-			@RequestBody PrintDrawingDto printDrawingDto) {
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	public ResponseEntity<PrintDrawingDto> createPrint(@RequestBody PrintDrawingDto printDrawingDto) {
 
 		logger.trace("Entered......createPrint() ");
 
 		System.out.println("/print/create"); // Log the creation request
 
-		return new ResponseEntity<>(printDrawingService.createPrint(printDrawingDto),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>(printDrawingService.createPrint(printDrawingDto), HttpStatus.CREATED);
 	}
 
 	/**
@@ -157,6 +177,7 @@ public class PrintController {
 	 * @return a response indicating the result of the delete operation
 	 */
 	@DeleteMapping("/print/delete/{id}")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<String> deletePrintById(@PathVariable("id") int id) {
 		printDrawingService.deleteByPrintId(id);
 		return new ResponseEntity<>("Successfully deleted print drawing id = " + id, HttpStatus.OK);
@@ -170,6 +191,7 @@ public class PrintController {
 	 * @throws NotFoundException if the user is not found
 	 */
 	@DeleteMapping("/delete/{id}")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws NotFoundException {
 		myUserRepository.deleteById(id);
 		return new ResponseEntity<>("User found and deleted", HttpStatus.OK);
@@ -188,9 +210,9 @@ public class PrintController {
 	 * @return a response containing the print drawings
 	 */
 	@GetMapping("/pagination/{pageNo}/{pageSize}")
-	public PrintDrawingResponse findByDiameterWithPaginationAndSorting(
-			@PathVariable("pageNo") int pageNo, @PathVariable("pageSize") int pageSize,
-			@RequestParam(value = "sortfield", required = false) String sortField,
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	public PrintDrawingResponse findByDiameterWithPaginationAndSorting(@PathVariable("pageNo") int pageNo,
+			@PathVariable("pageSize") int pageSize, @RequestParam(value = "sortfield", required = false) String sortField,
 			@RequestParam(value = "drawingName", required = false) String drawingName,
 			@RequestParam(value = "diameterMinValue", required = false) Float diameterMinValue,
 			@RequestParam(value = "diameterMaxValue", required = false) Float diameterMaxValue,
@@ -219,9 +241,8 @@ public class PrintController {
 		}
 
 		// Retrieve print drawings with pagination and sorting
-		return printDrawingService.findByDrawingNameAndDiameterAndFaceLengthBetween(pageNo,
-				pageSize, sortField, drawingName, diameterMinValue, diameterMaxValue,
-				faceLengthMinValue, faceLengthMaxValue);
+		return printDrawingService.findByDrawingNameAndDiameterAndFaceLengthBetween(pageNo, pageSize, sortField, drawingName,
+				diameterMinValue, diameterMaxValue, faceLengthMinValue, faceLengthMaxValue);
 	}
 
 	/**
@@ -232,11 +253,11 @@ public class PrintController {
 	 * @return a response containing the print drawings
 	 */
 	@GetMapping("/print")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<PrintDrawingResponse> getAllPrints(
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
-		return new ResponseEntity<>(printDrawingService.getAllPrints(pageNo, pageSize),
-				HttpStatus.OK);
+		return new ResponseEntity<>(printDrawingService.getAllPrints(pageNo, pageSize), HttpStatus.OK);
 	}
 
 	/**
@@ -245,26 +266,26 @@ public class PrintController {
 	 * @return a response containing the list of users
 	 */
 	@GetMapping("/admin/getallusers")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<List<MyUser>> getAllUsers() {
 
 		List<MyUser> users = myUserRepository.findAll();
 
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
-	// @GetMapping("/actuator/health")
-	// public ResponseEntity<MemoryHealthIndicator> getHealthCheck() {
-	//
-	// System.out.println("GetMapping ---> /actuator/health");
-	//
-	//
-	// MemoryHealthIndicator healthCheck = new MemoryHealthIndicator();
-	//
-	//
-	// String healthCheckResponse = String.valueOf(healthCheck.health());
-	//
-	//
-	// return new ResponseEntity<>(healthCheck, HttpStatus.OK);
-	// }
+
+	@GetMapping("/actuator/health")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	public ResponseEntity<MemoryHealthIndicator> getHealthCheck() {
+
+		System.out.println("GetMapping ---> /actuator/health");
+
+		MemoryHealthIndicator healthCheck = new MemoryHealthIndicator();
+
+		String healthCheckResponse = String.valueOf(healthCheck.health());
+
+		return new ResponseEntity<>(healthCheck, HttpStatus.OK);
+	}
 
 	/**
 	 * Retrieves a print drawing by ID.
@@ -273,6 +294,7 @@ public class PrintController {
 	 * @return a response containing the print drawing
 	 */
 	@GetMapping("/print/{id}")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<PrintDrawingDto> getPrintDetail(@PathVariable("id") int id) {
 		return new ResponseEntity<>(printDrawingService.getPrintById(id), HttpStatus.OK);
 	}
@@ -284,6 +306,7 @@ public class PrintController {
 	 * @return a list of print drawings
 	 */
 	@GetMapping("/printDrawings/findAll/{searchField}")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public List<PrintDrawingDto> getProductsWithSort(@PathVariable("searchField") String field) {
 		List<PrintDrawingDto> drawings = printDrawingService.findAllProductsWithSorting(field);
 		return drawings;
@@ -295,6 +318,7 @@ public class PrintController {
 	 * @return a welcome message for admin
 	 */
 	@GetMapping("/admin/home")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public String handleAdminHome() {
 		return "Welcome to ADMIN home!";
 	}
@@ -306,6 +330,7 @@ public class PrintController {
 	 */
 	// Endpoint: User accessible home page
 	@GetMapping("/user/home")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public String handleUserHome() {
 		return "Welcome to the user home page :)";
 	}
@@ -316,6 +341,7 @@ public class PrintController {
 	 * @return a welcome message for the homepage
 	 */
 	@GetMapping("/home")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public String handleWelcome() {
 		return "Welcome to the homepage";
 	}
@@ -328,8 +354,9 @@ public class PrintController {
 	 * @return the updated print drawing
 	 */
 	@PutMapping("/print/update/{id}")
-	public ResponseEntity<PrintDrawingDto> updatePrintDetail(
-			@RequestBody PrintDrawingDto printDrawingUpdate, @PathVariable("id") int id) {
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	public ResponseEntity<PrintDrawingDto> updatePrintDetail(@RequestBody PrintDrawingDto printDrawingUpdate,
+			@PathVariable("id") int id) {
 
 		PrintDrawingDto response = printDrawingService.updatePrint(printDrawingUpdate, id);
 

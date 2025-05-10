@@ -1,19 +1,19 @@
 package com.printdrawingsearch.controllers;
 
-import com.printdrawingsearch.dto.MyUserDto;
-import com.printdrawingsearch.service.UserPrintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.printdrawingsearch.model.MyUser;
+import com.printdrawingsearch.dto.MyUserDto;
 import com.printdrawingsearch.repository.MyUserRepository;
+import com.printdrawingsearch.service.UserPrintService;
 
 /**
  * Controller for user registration.
@@ -30,10 +30,9 @@ public class RegistrationController {
 	@Autowired
 	private PasswordEncoder passwordEncoder; // Encoder for password hashing
 
-
-
 	@Autowired
 	private UserPrintService userPrintService;
+
 	/**
 	 * Endpoint for user registration.
 	 *
@@ -41,13 +40,11 @@ public class RegistrationController {
 	 * @return a response indicating the result of the registration
 	 */
 	@PostMapping("/register/user")
+	@CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<String> createUser(@RequestBody MyUserDto myUserDto) {
-
 
 		logger.trace("Entered......createUser() ");
 		System.out.println("Entered......createUser() ");
-
-
 
 		// Check if the username already exists
 		if (myUserRepository.findByUsername(myUserDto.getUsername()).isPresent()) {
@@ -55,11 +52,10 @@ public class RegistrationController {
 			logger.trace("Exited......createUser() ");
 			System.out.println("Exited......createUser() ");
 
-
 			// Return conflict response if username already exists
 			return new ResponseEntity<>("User already exists. Try another username.", HttpStatus.CONFLICT);
 		}
-		System.out.println("myUserDto.getRole() ================= "+myUserDto.getRole());
+		System.out.println("myUserDto.getRole() ================= " + myUserDto.getRole());
 		if (myUserDto.getRole().isEmpty()) {
 			myUserDto.setRole("USER");
 
@@ -70,24 +66,19 @@ public class RegistrationController {
 
 		}
 
-		System.out.println("myUserDto.getRole() = "+myUserDto.getRole());
-
+		System.out.println("myUserDto.getRole() = " + myUserDto.getRole());
 
 		if (myUserDto.getRole().equals("ADMIN")) {
 			myUserDto.setRole("ADMIN,USER");
 
 		}
 
+		userPrintService.createUser(myUserDto);
 
-
-
-		 userPrintService.createUser(myUserDto);
-
-
-//		// Encode user password before saving
-//		myUserDto.setPassword(passwordEncoder.encode(myUserDtoNew.getPassword()));
-//		// Save user details to the repository
-//		myUserRepository.save(myUserDto);
+		// // Encode user password before saving
+		// myUserDto.setPassword(passwordEncoder.encode(myUserDtoNew.getPassword()));
+		// // Save user details to the repository
+		// myUserRepository.save(myUserDto);
 
 		logger.trace("Exited......createUser() ");
 		// Return success response upon successful registration
