@@ -1,21 +1,17 @@
--- No need for 'USE printdrawingsdatabase;' in PostgreSQL
 
-CREATE SEQUENCE IF NOT EXISTS myusers_id_seq;
+use railway;
 
-CREATE TABLE IF NOT EXISTS myusers (
-    id BIGINT PRIMARY KEY DEFAULT nextval('myusers_id_seq'),
-    password VARCHAR(255),
-    role VARCHAR(50),
-    username VARCHAR(255)
+create table If NOT EXISTS myusers
+(
+    id bigint auto_increment primary key,
+    role varchar(255) not null,
+    username varchar(255) not null,
+    password varchar(255) not null
 );
 
-ALTER SEQUENCE IF EXISTS myusers_id_seq OWNED BY myusers.id;
 
-
-CREATE SEQUENCE IF NOT EXISTS printdrawings_id_seq;
-
-CREATE TABLE IF NOT EXISTS printdrawings (
-    id INT PRIMARY KEY DEFAULT nextval('printdrawings_id_seq'),
+CREATE TABLE If NOT EXISTS printdrawings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     bearing_max VARCHAR(255),
     bearing_min VARCHAR(255),
     customer VARCHAR(255),
@@ -42,7 +38,8 @@ CREATE TABLE IF NOT EXISTS printdrawings (
     subcontractor VARCHAR(255),
     type VARCHAR(255),
     xlsm_path VARCHAR(255),
-    xlsx_path VARCHAR(255)
-);
-
-ALTER SEQUENCE IF EXISTS printdrawings_id_seq OWNED BY printdrawings.id;
+    XLSX_path VARCHAR(255)
+    );
+    
+    
+    
