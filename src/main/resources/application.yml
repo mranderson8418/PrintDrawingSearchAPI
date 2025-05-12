@@ -5,11 +5,12 @@ spring:
     url: jdbc:mysql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 10
   jpa:
     hibernate:
-      ddl-auto: update # Or none
+      ddl-auto: update
     properties:
       dialect: org.hibernate.dialect.MySQLDialect
