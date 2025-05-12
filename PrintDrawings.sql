@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS printdrawingsdatabase.printdrawings (
+CREATE TABLE IF NOT EXISTS railway.printdrawings (
 
     id INT AUTO_INCREMENT PRIMARY KEY,
     bearingMax VARCHAR(255),
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS printdrawingsdatabase.printdrawings (
 );
 
 
-use printdrawingsdatabase;
+use railway;
 INSERT INTO printdrawings(bearing_max, bearing_min, customer, customer_pin, customer_revision, date, date_created, diameter_low, diameter_high, dmg_drawing_path, drawing_name, face_length_low, face_length_high, new_base_price, oem, originating_customer, part_no, pdf_path, prev_part_no, product_code, rev_number, scanned_path, steps, subcontractor, type, xlsm_path, xlsx_path) VALUES('MANDREL', 'MANDREL', 'PRINTING USA', 'NONE', 'NONE', '36622', '36622', '5.14', '5.14', 'NONE', 'M90101', '35.0', '35.0', 'NONE', 'PRINTING USA', 'SOSSINI', 'M90101', 'NONE', 'MANDREL2', 'M', 'A', 'NONE', '2', 'NONE', '35', 'NONE', 'NONE');
 INSERT INTO printdrawings(bearing_max, bearing_min, customer, customer_pin, customer_revision, date, date_created, diameter_low, diameter_high, dmg_drawing_path, drawing_name, face_length_low, face_length_high, new_base_price, oem, originating_customer, part_no, pdf_path, prev_part_no, product_code, rev_number, scanned_path, steps, subcontractor, type, xlsm_path, xlsx_path) VALUES('MANDREL', 'MANDREL', 'PRINTING USA', 'NONE', 'NONE', '36622', '36622', '4.14', '4.14', 'NONE', 'M90102', '34.2', '34.2', 'NONE', 'PRINTING USA', 'YO YO COMP', 'M90102', 'NONE', 'MANDREL3', 'M', 'A', 'NONE', '2', 'NONE', 'VENTURA', 'NONE', 'NONE');
 INSERT INTO printdrawings(bearing_max, bearing_min, customer, customer_pin, customer_revision, date, date_created, diameter_low, diameter_high, dmg_drawing_path, drawing_name, face_length_low, face_length_high, new_base_price, oem, originating_customer, part_no, pdf_path, prev_part_no, product_code, rev_number, scanned_path, steps, subcontractor, type, xlsm_path, xlsx_path) VALUES('MANDREL', 'MANDREL', 'PRINTING USA', 'NONE', 'NONE', '36622', '36622', '2.75', '2.75', 'NONE', 'M90103', '39.0', '39.0', 'NONE', 'PRINTING USA', 'RCMP', 'M90103', 'NONE', 'MANDREL4', 'M', '*', 'NONE', '2', 'NONE', 'RCMP VISION II 37 WEB', 'NONE', 'NONE');
