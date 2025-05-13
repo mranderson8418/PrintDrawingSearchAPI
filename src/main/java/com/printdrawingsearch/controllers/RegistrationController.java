@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.printdrawingsearch.dto.MyUserDto;
@@ -19,7 +18,7 @@ import com.printdrawingsearch.service.UserPrintService;
 /**
  * Controller for user registration.
  */
-@RequestMapping(value = "/api")
+
 @RestController
 public class RegistrationController {
 	Logger logger = LoggerFactory.getLogger(RegistrationController.class.getName());
