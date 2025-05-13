@@ -89,6 +89,7 @@ public class PrintController {
 	}
 
 	@GetMapping("/")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public String home() {
 		return "index"; // Renders templates/index.html
 	}
@@ -116,7 +117,8 @@ public class PrintController {
 	 * @throws UsernameNotFoundException if the authentication fails
 	 */
 	@PostMapping("/authenticate")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<String> authenticateAndGetToken(@RequestBody LoginForm loginForm) {
 		System.out.println("Entered......authenticateAndGetToken() ");
 		logger.trace("Entered......authenticateAndGetToken() ");
@@ -160,7 +162,8 @@ public class PrintController {
 	 */
 	@PostMapping("/print/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<PrintDrawingDto> createPrint(@RequestBody PrintDrawingDto printDrawingDto) {
 
 		logger.trace("Entered......createPrint() ");
@@ -177,7 +180,8 @@ public class PrintController {
 	 * @return a response indicating the result of the delete operation
 	 */
 	@DeleteMapping("/print/delete/{id}")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<String> deletePrintById(@PathVariable("id") int id) {
 		printDrawingService.deleteByPrintId(id);
 		return new ResponseEntity<>("Successfully deleted print drawing id = " + id, HttpStatus.OK);
@@ -191,7 +195,8 @@ public class PrintController {
 	 * @throws NotFoundException if the user is not found
 	 */
 	@DeleteMapping("/delete/{id}")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws NotFoundException {
 		myUserRepository.deleteById(id);
 		return new ResponseEntity<>("User found and deleted", HttpStatus.OK);
@@ -210,7 +215,8 @@ public class PrintController {
 	 * @return a response containing the print drawings
 	 */
 	@GetMapping("/pagination/{pageNo}/{pageSize}")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public PrintDrawingResponse findByDiameterWithPaginationAndSorting(@PathVariable("pageNo") int pageNo,
 			@PathVariable("pageSize") int pageSize, @RequestParam(value = "sortfield", required = false) String sortField,
 			@RequestParam(value = "drawingName", required = false) String drawingName,
@@ -253,6 +259,7 @@ public class PrintController {
 	 * @return a response containing the print drawings
 	 */
 	@GetMapping("/print")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<PrintDrawingResponse> getAllPrints(
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
@@ -266,6 +273,7 @@ public class PrintController {
 	 * @return a response containing the list of users
 	 */
 	@GetMapping("/admin/getallusers")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<List<MyUser>> getAllUsers() {
 
@@ -276,6 +284,7 @@ public class PrintController {
 
 	@GetMapping("/actuator/health")
 	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<MemoryHealthIndicator> getHealthCheck() {
 
 		System.out.println("GetMapping ---> /actuator/health");
@@ -295,6 +304,7 @@ public class PrintController {
 	 */
 	@GetMapping("/print/{id}")
 	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<PrintDrawingDto> getPrintDetail(@PathVariable("id") int id) {
 		return new ResponseEntity<>(printDrawingService.getPrintById(id), HttpStatus.OK);
 	}
@@ -306,7 +316,7 @@ public class PrintController {
 	 * @return a list of print drawings
 	 */
 	@GetMapping("/printDrawings/findAll/{searchField}")
-	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public List<PrintDrawingDto> getProductsWithSort(@PathVariable("searchField") String field) {
 		List<PrintDrawingDto> drawings = printDrawingService.findAllProductsWithSorting(field);
 		return drawings;
@@ -318,7 +328,7 @@ public class PrintController {
 	 * @return a welcome message for admin
 	 */
 	@GetMapping("/admin/home")
-	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public String handleAdminHome() {
 		return "Welcome to ADMIN home!";
 	}
@@ -330,7 +340,7 @@ public class PrintController {
 	 */
 	// Endpoint: User accessible home page
 	@GetMapping("/user/home")
-	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public String handleUserHome() {
 		return "Welcome to the user home page :)";
 	}
@@ -342,6 +352,7 @@ public class PrintController {
 	 */
 	@GetMapping("/home")
 	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public String handleWelcome() {
 		return "Welcome to the homepage";
 	}
@@ -354,7 +365,7 @@ public class PrintController {
 	 * @return the updated print drawing
 	 */
 	@PutMapping("/print/update/{id}")
-	// @CrossOrigin(origins = "http://127.0.0.1:5501")
+	@CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
 	public ResponseEntity<PrintDrawingDto> updatePrintDetail(@RequestBody PrintDrawingDto printDrawingUpdate,
 			@PathVariable("id") int id) {
 
