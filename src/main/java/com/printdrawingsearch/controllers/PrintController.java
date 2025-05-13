@@ -41,8 +41,8 @@ import com.printdrawingsearch.service.PrintDrawingService;
 @RestController
 public class PrintController {
 
-	/**HI
-	 * The logger.
+	/**
+	 * HI The logger.
 	 */
 	// Initialize a logger for the class
 	public static final Logger logger = LoggerFactory.getLogger(PrintController.class.getName());
@@ -253,7 +253,7 @@ public class PrintController {
 	 * @return a response containing the print drawings
 	 */
 	@GetMapping("/print")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<PrintDrawingResponse> getAllPrints(
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
@@ -266,7 +266,7 @@ public class PrintController {
 	 * @return a response containing the list of users
 	 */
 	@GetMapping("/admin/getallusers")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<List<MyUser>> getAllUsers() {
 
 		List<MyUser> users = myUserRepository.findAll();
@@ -275,7 +275,7 @@ public class PrintController {
 	}
 
 	@GetMapping("/actuator/health")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<MemoryHealthIndicator> getHealthCheck() {
 
 		System.out.println("GetMapping ---> /actuator/health");
@@ -294,7 +294,7 @@ public class PrintController {
 	 * @return a response containing the print drawing
 	 */
 	@GetMapping("/print/{id}")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<PrintDrawingDto> getPrintDetail(@PathVariable("id") int id) {
 		return new ResponseEntity<>(printDrawingService.getPrintById(id), HttpStatus.OK);
 	}
@@ -306,7 +306,7 @@ public class PrintController {
 	 * @return a list of print drawings
 	 */
 	@GetMapping("/printDrawings/findAll/{searchField}")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public List<PrintDrawingDto> getProductsWithSort(@PathVariable("searchField") String field) {
 		List<PrintDrawingDto> drawings = printDrawingService.findAllProductsWithSorting(field);
 		return drawings;
@@ -318,7 +318,7 @@ public class PrintController {
 	 * @return a welcome message for admin
 	 */
 	@GetMapping("/admin/home")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public String handleAdminHome() {
 		return "Welcome to ADMIN home!";
 	}
@@ -330,7 +330,7 @@ public class PrintController {
 	 */
 	// Endpoint: User accessible home page
 	@GetMapping("/user/home")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public String handleUserHome() {
 		return "Welcome to the user home page :)";
 	}
@@ -341,7 +341,7 @@ public class PrintController {
 	 * @return a welcome message for the homepage
 	 */
 	@GetMapping("/home")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public String handleWelcome() {
 		return "Welcome to the homepage";
 	}
@@ -354,7 +354,7 @@ public class PrintController {
 	 * @return the updated print drawing
 	 */
 	@PutMapping("/print/update/{id}")
-	@CrossOrigin(origins = "http://127.0.0.1:5501")
+	// @CrossOrigin(origins = "http://127.0.0.1:5501")
 	public ResponseEntity<PrintDrawingDto> updatePrintDetail(@RequestBody PrintDrawingDto printDrawingUpdate,
 			@PathVariable("id") int id) {
 
