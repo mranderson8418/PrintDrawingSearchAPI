@@ -14,7 +14,7 @@ public class CorsConfig {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**") // Adjust the path to match your API endpoints
-						.allowedOrigins("printsearch-frontend.railway.internal") // Use the HTTPS version
+						.allowedOrigins("https://printsearch-frontend-production.up.railway.app/") // Use the HTTPS version
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowedHeaders("*").allowCredentials(true); // If
 																																// you're
 																																// using
