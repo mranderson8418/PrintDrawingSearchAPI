@@ -22,8 +22,8 @@ async function loginUser(event) {
 	const password = document.getElementById("password").value;
 
 	try {
-		const apiBaseUrl = "printsearch-frontend-production.up.railway.app";
-		const response = await fetch(`&{apiBaseUrl}/api/authenticate`, {
+
+		const response = await fetch(`/api/authenticate`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
