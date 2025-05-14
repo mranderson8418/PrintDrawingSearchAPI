@@ -88,26 +88,7 @@ public class PrintController {
         this.printDrawingService = printDrawingService;
     }
 
-    @GetMapping("/")
-    @CrossOrigin(origins = "https://printsearch-frontend-production.up.railway.app/")
-    public String home() {
-        return "index"; // Renders templates/index.html
-    }
-    //
-    // @GetMapping("/register")
-    // public String register() {
-    // return "register"; // Renders templates/register.html
-    // }
-    //
-    // @GetMapping("/admin-home")
-    // public String adminHome() {
-    // return "admin-home";
-    // }
-    //
-    // @GetMapping("/get-all-prints")
-    // public String getAllPrints() {
-    // return "get-all-prints";
-    // }
+
 
     /**
      * Authenticates a user and returns a JWT token.
